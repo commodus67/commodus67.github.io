@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sports Probability APIs: NFL, MLB, NHL, NBA &amp; Soccer</title>
+<meta name="description" content="Monte Carlo playoff, title and match probabilities for NFL, MLB, NHL, NBA and soccer as APIs and an MCP server, with 59 ready-made examples.">
+<link rel="canonical" href="https://commodus67.github.io/">
+<meta property="og:title" content="Sports Probability APIs: NFL, MLB, NHL, NBA &amp; Soccer">
+<meta property="og:description" content="Monte Carlo sports probability models published as APIs and an MCP server.">
+<meta property="og:url" content="https://commodus67.github.io/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore"]}, {"@type": "ItemList", "name": "Monte Carlo sports probability APIs", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://apify.com/commodus67/football-soccer-monte-carlo-predictor", "name": "Soccer Predictions API"}, {"@type": "ListItem", "position": 2, "url": "https://apify.com/commodus67/soccer-dixon-coles-match-predictor", "name": "Soccer Match Predictions API"}, {"@type": "ListItem", "position": 3, "url": "https://apify.com/commodus67/mlb-playoff-odds-monte-carlo", "name": "MLB Playoff Odds API"}, {"@type": "ListItem", "position": 4, "url": "https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator", "name": "NFL Playoff Odds API"}, {"@type": "ListItem", "position": 5, "url": "https://apify.com/commodus67/nhl-playoff-odds-monte-carlo", "name": "NHL Playoff Odds API"}, {"@type": "ListItem", "position": 6, "url": "https://apify.com/commodus67/nba-playoff-odds-monte-carlo", "name": "NBA Playoff Odds API"}, {"@type": "ListItem", "position": 7, "url": "https://apify.com/commodus67/sports-probabilities-mcp", "name": "Sports Probabilities MCP Server"}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose p{margin:0 0 12px;max-width:70ch}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Monte Carlo probabilities for NFL, MLB, NHL, NBA and soccer</h1>
+    <p class="lede">Seven probability models by Elio Liberatore, published on Apify as APIs and as an MCP server for AI agents. Public data goes in, the rest of the season or the next match is simulated thousands of times, and fair probabilities come out as JSON, CSV or an API response.</p>
+    <nav class="toc" aria-label="Models"><a href="#football-soccer-monte-carlo-predictor">Soccer Predictions API</a> <a href="#soccer-dixon-coles-match-predictor">Soccer Match Predictions API</a> <a href="#mlb-playoff-odds-monte-carlo">MLB Playoff Odds API</a> <a href="#nfl-playoff-odds-api-monte-carlo-simulator">NFL Playoff Odds API</a> <a href="#nhl-playoff-odds-monte-carlo">NHL Playoff Odds API</a> <a href="#nba-playoff-odds-monte-carlo">NBA Playoff Odds API</a> <a href="#sports-probabilities-mcp">Sports Probabilities MCP Server</a></nav>
+  </header>
+  <main>
+    <section class="actor" id="football-soccer-monte-carlo-predictor">
+      <header>
+        <h2>Soccer Predictions API</h2>
+        <p class="tag">Title, top-four, playoff and relegation odds</p>
+      </header>
+      <p>Replays every remaining league fixture thousands of times and returns fair probabilities for the title, top-four and European places, promotion playoffs and relegation. Covers the Premier League, Championship, LaLiga, Serie A, Bundesliga, Ligue 1, Eredivisie, Primeira Liga, Super Lig, Brasileirao, Liga MX, MLS and more, with an optional value-bet comparison against bookmaker odds.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor">Open on Apify</a> <a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/api">API reference</a> <a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/input-schema">Input schema</a></p>
+      <details open>
+        <summary>16 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/americas-soccer-leagues-season-odds">Americas Soccer Leagues Season Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/top-five-european-leagues-title-odds">Top Five European Leagues Title Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/premier-league-title-race-odds">Premier League Title Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/premier-league-relegation-survival-odds">Premier League Relegation Survival Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/championship-promotion-and-playoff-odds">Championship Promotion and Playoff Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/laliga-title-race-odds">LaLiga Title Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/serie-a-champions-league-qualification-odds">Serie A Champions League Qualification Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/bundesliga-title-and-top-four-odds">Bundesliga Title and Top Four Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/ligue-1-title-race-odds">Ligue 1 Title Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/eredivisie-title-and-european-spots-odds">Eredivisie Title and European Spots Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/primeira-liga-title-race-odds">Primeira Liga Title Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/super-lig-title-and-relegation-odds">Super Lig Title and Relegation Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/brasileirao-libertadores-qualification-odds">Brasileirao Libertadores Qualification Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/liga-mx-liguilla-qualification-odds">Liga MX Liguilla Qualification Odds</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/mls-playoff-odds-by-team">MLS Playoff Odds by Team</a></li>
+          <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/football-value-bets-vs-bookmaker-odds">Football Value Bets vs Bookmaker Odds</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="soccer-dixon-coles-match-predictor">
+      <header>
+        <h2>Soccer Match Predictions API</h2>
+        <p class="tag">1X2, over/under, BTTS and correct score</p>
+      </header>
+      <p>One probability grid per upcoming fixture: home win, draw and away win, over/under 2.5 goals, both teams to score and the most likely scorelines. Attack and defence ratings are fitted per team with a Dixon-Coles bivariate Poisson model on real match history, weighted towards recent games.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor">Open on Apify</a> <a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/api">API reference</a> <a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/input-schema">Input schema</a></p>
+      <details open>
+        <summary>9 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/mls-match-predictions-1x2-over-under-btts">MLS Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/mls-correct-score-probabilities">MLS Correct Score Probabilities</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/liga-mx-match-predictions-1x2-over-under-btts">Liga MX Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/liga-de-expansion-mx-match-predictions-1x2-btts">Liga de Expansion MX Match Predictions: 1X2 &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/usl-championship-match-predictions-1x2-over-under-btts">USL Championship Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/brasileirao-serie-b-match-predictions-1x2-over-under-btts">Brasileirao Serie B Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/colombia-primera-a-match-predictions-1x2-over-under-btts">Colombia Primera A Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/uruguay-primera-division-match-predictions-1x2-btts">Uruguay Primera Division Match Predictions: 1X2 &amp; BTTS</a></li>
+          <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/norway-eliteserien-match-predictions-1x2-over-under-btts">Norway Eliteserien Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="mlb-playoff-odds-monte-carlo">
+      <header>
+        <h2>MLB Playoff Odds API</h2>
+        <p class="tag">Division, wild card and postseason odds for 30 teams</p>
+      </header>
+      <p>Simulates the rest of the MLB schedule for division, wild card, postseason and top-seed probabilities for all 30 teams, with projected records, model-versus-market edge against live Kalshi prices and quarter-Kelly stake sizing.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+      <details open>
+        <summary>8 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-by-team">MLB Playoff Odds by Team</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-wild-card-race-odds">MLB Wild Card Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-projected-win-totals-and-final-standings">MLB Projected Win Totals and Final Standings</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-value-bets-vs-live-kalshi-prices">MLB Value Bets vs Live Kalshi Prices</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-futures-bet-sizing-with-quarter-kelly">MLB Futures Bet Sizing with Quarter Kelly</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-from-run-differential-only">MLB Playoff Odds from Run Differential Only</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-without-the-uncertainty-adjustment">MLB Playoff Odds Without the Uncertainty Adjustment</a></li>
+          <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-backtest-2025-season">MLB Playoff Odds Backtest: 2025 Season</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="nfl-playoff-odds-api-monte-carlo-simulator">
+      <header>
+        <h2>NFL Playoff Odds API</h2>
+        <p class="tag">Division, wild card and No. 1 seed odds for 32 teams</p>
+      </header>
+      <p>Simulates the remaining NFL schedule for division, wild card, playoff and No. 1 seed probabilities for all 32 teams, with projected win totals, market edge and Kelly stake sizing.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator">Open on Apify</a> <a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/api">API reference</a> <a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/input-schema">Input schema</a></p>
+      <details open>
+        <summary>8 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-by-team-monte-carlo-model">NFL Playoff Odds by Team</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-wild-card-race-odds-live-simulation">NFL Wild Card Race Odds</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-projected-win-totals-and-final-standings">NFL Projected Win Totals and Final Standings</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-value-bets-vs-sportsbook-playoff-futures">NFL Value Bets vs Sportsbook Playoff Futures</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-futures-bet-sizing-with-quarter-kelly">NFL Futures Bet Sizing with Quarter Kelly</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-from-point-differential-only">NFL Playoff Odds from Point Differential Only</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-without-the-uncertainty-adjustment">NFL Playoff Odds Without the Uncertainty Adjustment</a></li>
+          <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-backtest-2025-season">NFL Playoff Odds Backtest: 2025 Season</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="nhl-playoff-odds-monte-carlo">
+      <header>
+        <h2>NHL Playoff Odds API</h2>
+        <p class="tag">Playoff, wild card and Presidents’ Trophy odds for 32 teams</p>
+      </header>
+      <p>Simulates the NHL regular season with overtime, shootouts and the loser point modeled explicitly, and returns division, wild card, playoff and Presidents’ Trophy probabilities for all 32 teams, priced against live Kalshi contracts with fee-adjusted expected value.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+      <details open>
+        <summary>7 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-playoff-odds-all-32-teams">NHL Playoff Odds: All 32 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-projected-points-standings-all-32-teams">NHL Projected Points Standings for All 32 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-wild-card-odds-all-32-teams">NHL Wild Card Odds for All 32 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-presidents-trophy-odds">NHL Presidents’ Trophy Odds from Simulated Seasons</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-division-winner-odds-vs-kalshi">NHL Division Winner Odds vs Kalshi</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-value-bets-vs-live-kalshi-prices">NHL Value Bets vs Live Kalshi Prices</a></li>
+          <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/track-nhl-playoff-odds-all-season">Track NHL Playoff Odds All Season</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="nba-playoff-odds-monte-carlo">
+      <header>
+        <h2>NBA Playoff Odds API</h2>
+        <p class="tag">Playoff, play-in and championship odds for 30 teams</p>
+      </header>
+      <p>Simulates the NBA season game by game, including the play-in tournament and the full best-of-seven playoff bracket, for playoff, play-in, division, conference and championship probabilities for all 30 teams, priced against live Kalshi contracts.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+      <details open>
+        <summary>7 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-playoff-odds-for-all-30-teams">NBA Playoff Odds for All 30 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-projected-win-totals-for-all-30-teams">NBA Projected Win Totals for All 30 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-play-in-tournament-odds-by-conference">NBA Play-In Tournament Odds by Conference</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-division-winner-and-best-record-odds">NBA Division Winner and Best Record Odds</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-championship-odds-simulated-playoff-bracket">NBA Championship Odds from a Simulated Playoff Bracket</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-value-bets-vs-live-kalshi-prices">NBA Value Bets vs Live Kalshi Prices</a></li>
+          <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/track-nba-playoff-odds-all-season">Track NBA Playoff Odds All Season</a></li>
+        </ul>
+      </details>
+    </section>
+    <section class="actor" id="sports-probabilities-mcp">
+      <header>
+        <h2>Sports Probabilities MCP Server</h2>
+        <p class="tag">The models as tools for AI agents</p>
+      </header>
+      <p>Exposes the season models as Model Context Protocol tools, so Claude, ChatGPT, Cursor or any MCP client can ask for team odds, a full league table ranked by probability, model-versus-market edge against Kalshi, what-if scenarios and archived probability history, and get a computed number back instead of a guess.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/sports-probabilities-mcp">Open on Apify</a> <a href="https://apify.com/commodus67/sports-probabilities-mcp/api">API reference</a> <a href="https://apify.com/commodus67/sports-probabilities-mcp/input-schema">Input schema</a></p>
+      <details open>
+        <summary>4 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/nfl-playoff-odds-all-32-teams">NFL Playoff Odds: All 32 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/mlb-postseason-odds-all-30-teams">MLB Postseason Odds: All 30 Teams</a></li>
+          <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/premier-league-title-odds">Premier League Title Odds</a></li>
+          <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/premier-league-relegation-odds">Premier League Relegation Odds</a></li>
+        </ul>
+      </details>
+    </section>
+    <div class="prose">
+      <h2>How the models work</h2>
+      <p>The season models blend current form with a baseline from previous seasons, regress each team towards average according to how much of the season is left, and redraw every team's underlying strength in each simulated season so the output does not become overconfident. The results are compared with live prediction market prices where a market exists, after fees.</p>
+      <p>The match model fits attack and defence ratings for each team with a Dixon-Coles bivariate Poisson model, weighted towards recent games, and turns them into a full scoreline grid for every upcoming fixture.</p>
+      <h2>What they are used for</h2>
+      <p>Comparing fair probabilities with sportsbook or prediction market prices, feeding dashboards and spreadsheets on a schedule, building a season-long history of how the odds moved, backtesting a past season, and giving AI agents a tool that computes a probability instead of inventing one.</p>
+      <h2>Using them</h2>
+      <p>Every example above is a saved configuration you can run in one click from its page. You need a free Apify account; no third-party API key is required. The source of the NHL and NBA models is public on <a href="https://github.com/commodus67">GitHub</a>.</p>
+    </div>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-10</p>
+  </footer>
+</div>
+</body>
+</html>
