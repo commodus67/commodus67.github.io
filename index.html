@@ -197,6 +197,14 @@ footer a{color:var(--muted)}
       </details>
     </section>
     <div class="prose">
+      <h2>Articles</h2>
+      <ul>
+        <li><a href="https://dev.to/commodus67/correct-score-btts-and-overunder-probabilities-with-dixon-coles-what-i-learned-building-it-for-39dc">Correct score, BTTS and Over/Under probabilities with Dixon-Coles</a> — why a plain Poisson model underprices draws, and what a per-match prediction looks like for MLS and Liga MX.</li>
+        <li><a href="https://dev.to/commodus67/nhl-playoff-odds-for-2026-27-84-games-the-wild-card-rule-and-why-i-dont-trust-my-own-model-in-10hm">NHL playoff odds for 2026-27: 84 games and the wild card rule</a> — simulating points, overtime and the 3+2 qualification rule, and why pre-season gaps against the market are mostly the offseason.</li>
+        <li><a href="https://dev.to/commodus67/nba-play-in-odds-are-not-playoff-odds-simulating-the-play-in-tournament-instead-of-guessing-it-1kae">NBA play-in odds are not playoff odds</a> — simulating the play-in tournament and the full bracket instead of approximating them.</li>
+      </ul>
+    </div>
+    <div class="prose">
       <h2>How the models work</h2>
       <p>The season models blend current form with a baseline from previous seasons, regress each team towards average according to how much of the season is left, and redraw every team's underlying strength in each simulated season so the output does not become overconfident. The results are compared with live prediction market prices where a market exists, after fees.</p>
       <p>The match model fits attack and defence ratings for each team with a Dixon-Coles bivariate Poisson model, weighted towards recent games, and turns them into a full scoreline grid for every upcoming fixture.</p>
@@ -208,7 +216,7 @@ footer a{color:var(--muted)}
   </main>
   <footer>
     <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
-    <p><a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-10</p>
+    <p><a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-10</p>
   </footer>
 </div>
 </body>
