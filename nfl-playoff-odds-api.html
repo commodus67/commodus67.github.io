@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NFL Playoff Odds API: Monte Carlo Simulator</title>
+<meta name="description" content="NFL playoff, division, wild card and No. 1 seed probabilities for all 32 teams from 20,000 simulated seasons on the real schedule, with projected win totals.">
+<link rel="canonical" href="https://commodus67.github.io/nfl-playoff-odds-api">
+<meta property="og:title" content="NFL Playoff Odds API: Monte Carlo Simulator">
+<meta property="og:description" content="NFL playoff, division, wild card and No. 1 seed probabilities for all 32 teams from 20,000 simulated seasons on the real schedule, with projected win totals.">
+<meta property="og:url" content="https://commodus67.github.io/nfl-playoff-odds-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "NFL Playoff Odds API", "item": "https://commodus67.github.io/nfl-playoff-odds-api"}]}, {"@type": "SoftwareApplication", "name": "NFL Playoff Odds API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator", "description": "NFL playoff, division, wild card and No. 1 seed probabilities for all 32 teams from 20,000 simulated seasons on the real schedule, with projected win totals.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why are the preseason probabilities so close together?", "acceptedAnswer": {"@type": "Answer", "text": "Because at that point the model only knows last season's scoring margin and this season's schedule. It does not use camp reports, depth charts or injury news, so it does not claim more conviction than that information supports."}}, {"@type": "Question", "name": "Why point differential instead of wins?", "acceptedAnswer": {"@type": "Answer", "text": "Over a short season, point differential predicts future wins better than the win-loss record, which is heavily affected by close games."}}, {"@type": "Question", "name": "How do I track how the odds move through the season?", "acceptedAnswer": {"@type": "Answer", "text": "Set a dataset name in the archive option and run the model on a schedule. Every run appends to that dataset, and Apify keeps named datasets instead of deleting them after a few days."}}, {"@type": "Question", "name": "Can I compare it with sportsbook futures?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Pass implied probabilities for playoff or division markets and each team comes back with the model probability, the market probability, the edge and a capped stake suggestion."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › NFL Playoff Odds API</nav>
+    <h1>NFL playoff odds API: division, wild card and No. 1 seed probabilities</h1>
+    <p class="lede">A Monte Carlo simulator for the NFL. It plays the rest of the season on the real schedule, 20,000 times by default, and returns playoff, division, wild card and No. 1 seed probabilities for all 32 teams, with projected win totals.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator">Open on Apify</a> <a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/api">API reference</a> <a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Probability of reaching the playoffs, winning the division, taking a wild card and earning the No. 1 seed</li>
+      <li>Projected final win totals</li>
+      <li>Edge against market probabilities you supply, with a value flag</li>
+      <li>Quarter-Kelly stake suggestions under a per-position cap (2% by default) and a total exposure cap (6% by default)</li>
+      <li>Optional archiving of every run to a named dataset, which builds a season-long history of the odds</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>A 17-game season is a small sample, so the model leans on point differential rather than the raw record: by default 65% of the strength estimate comes from points scored and allowed. The estimate is then regressed towards .500 as if each team had six extra games at a .500 record.</p>
+    <p>Every simulated season redraws each team&#x27;s strength around that estimate, because 17 games say little about true talent and a model without that step is far too confident. Each game adds a home-field term worth roughly a 55% win rate between evenly matched teams, and a small tie probability, with a tie counted as half a win.</p>
+    <p>Before a single game is played the model is a pure prior: last season&#x27;s point differential, shrunk towards average, run through this year&#x27;s schedule. Its preseason numbers are deliberately timid, and they sharpen as real results replace the prior.</p>
+    <h2>Default settings</h2>
+    <ul>
+      <li>20,000 simulated seasons</li>
+      <li>Regression: 6 games at .500</li>
+      <li>Weight on point differential: 0.65</li>
+      <li>Home-field advantage: 0.2 in log-odds</li>
+      <li>Strength uncertainty: 0.16</li>
+      <li>Tie probability per game: 0.004</li>
+    </ul>
+    <p>All of them are inputs you can change, and two of the ready-made examples show what happens when you switch parts of the model off.</p>
+    <h2>10 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-by-team-monte-carlo-model">NFL Playoff Odds by Team</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-wild-card-race-odds-live-simulation">NFL Wild Card Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-projected-win-totals-and-final-standings">NFL Projected Win Totals and Final Standings</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-value-bets-vs-sportsbook-playoff-futures">NFL Value Bets vs Sportsbook Playoff Futures</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-futures-bet-sizing-with-quarter-kelly">NFL Futures Bet Sizing with Quarter Kelly</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-from-point-differential-only">NFL Playoff Odds from Point Differential Only</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-without-the-uncertainty-adjustment">NFL Playoff Odds Without the Uncertainty Adjustment</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-playoff-odds-backtest-2025-season">NFL Playoff Odds Backtest: 2025 Season</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/nfl-division-winner-odds-all-8-divisions">NFL Division Winner Odds for All 8 Divisions</a></li>
+      <li><a href="https://apify.com/commodus67/nfl-playoff-odds-api-monte-carlo-simulator/examples/track-nfl-playoff-odds-all-season">Track NFL Playoff Odds All Season</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why are the preseason probabilities so close together?</h3>
+    <p>Because at that point the model only knows last season&#x27;s scoring margin and this season&#x27;s schedule. It does not use camp reports, depth charts or injury news, so it does not claim more conviction than that information supports.</p>
+    <h3>Why point differential instead of wins?</h3>
+    <p>Over a short season, point differential predicts future wins better than the win-loss record, which is heavily affected by close games.</p>
+    <h3>How do I track how the odds move through the season?</h3>
+    <p>Set a dataset name in the archive option and run the model on a schedule. Every run appends to that dataset, and Apify keeps named datasets instead of deleting them after a few days.</p>
+    <h3>Can I compare it with sportsbook futures?</h3>
+    <p>Yes. Pass implied probabilities for playoff or division markets and each team comes back with the model probability, the market probability, the edge and a capped stake suggestion.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

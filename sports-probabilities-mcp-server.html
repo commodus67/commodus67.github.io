@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sports Probabilities MCP Server for AI Agents</title>
+<meta name="description" content="An MCP server that gives Claude, ChatGPT and Cursor Monte Carlo odds for NFL, MLB, NHL, NBA and soccer, plus model-vs-market edge against live Kalshi prices.">
+<link rel="canonical" href="https://commodus67.github.io/sports-probabilities-mcp-server">
+<meta property="og:title" content="Sports Probabilities MCP Server for AI Agents">
+<meta property="og:description" content="An MCP server that gives Claude, ChatGPT and Cursor Monte Carlo odds for NFL, MLB, NHL, NBA and soccer, plus model-vs-market edge against live Kalshi prices.">
+<meta property="og:url" content="https://commodus67.github.io/sports-probabilities-mcp-server">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Sports Probabilities MCP Server", "item": "https://commodus67.github.io/sports-probabilities-mcp-server"}]}, {"@type": "SoftwareApplication", "name": "Sports Probabilities MCP Server", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/sports-probabilities-mcp", "description": "An MCP server that gives Claude, ChatGPT and Cursor Monte Carlo odds for NFL, MLB, NHL, NBA and soccer, plus model-vs-market edge against live Kalshi prices.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Which AI clients can use it?", "acceptedAnswer": {"@type": "Answer", "text": "Any client that supports remote MCP servers over streamable HTTP, including Claude, ChatGPT and Cursor."}}, {"@type": "Question", "name": "Where do the numbers come from?", "acceptedAnswer": {"@type": "Answer", "text": "From the Monte Carlo season simulators listed on this site. The server passes their results through, so an answer about the NFL is the same number the NFL simulator produces."}}, {"@type": "Question", "name": "Does it pull market prices automatically?", "acceptedAnswer": {"@type": "Answer", "text": "For the NFL, MLB, NHL and NBA it reads live Kalshi prices. For soccer, or to use a bookmaker instead, you pass your own implied probabilities."}}, {"@type": "Question", "name": "Is this betting advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. It returns statistical estimates and the arithmetic of comparing them with a price. What to do with that is up to you."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › Sports Probabilities MCP Server</nav>
+    <h1>Sports probabilities MCP server for Claude, ChatGPT and Cursor</h1>
+    <p class="lede">Ask an AI assistant for a team&#x27;s playoff odds and it will often produce a plausible number with nothing behind it. This Model Context Protocol server gives the assistant tools that return a probability computed by a Monte Carlo simulation instead.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/sports-probabilities-mcp">Open on Apify</a> <a href="https://apify.com/commodus67/sports-probabilities-mcp/api">API reference</a> <a href="https://apify.com/commodus67/sports-probabilities-mcp/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Playoff, division, wild card, seeding, play-in, title and relegation probabilities for one team or a whole league</li>
+      <li>Leagues ranked by probability rather than by points or record</li>
+      <li>Model against live Kalshi prices, with expected value after fees and a capped quarter-Kelly stake</li>
+      <li>What-if re-runs under your own assumptions, showing which teams move</li>
+      <li>Archived probability history across a season</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>The server does not contain a separate model. It calls the published season simulators for the NFL, MLB, NHL, NBA and soccer and returns their output, with metadata on when the simulation ran and how many seasons it played.</p>
+    <p>It speaks MCP over streamable HTTP, so any client that supports remote MCP servers can connect, and it is listed in the official MCP Registry as io.github.commodus67/sports-probabilities-mcp.</p>
+    <h2>The five tools</h2>
+    <ul>
+      <li>get_team_probabilities: one team&#x27;s odds with its current record and projected finish</li>
+      <li>get_league_probabilities: the whole league ordered by a chosen probability</li>
+      <li>compare_model_vs_market: model against Kalshi or prices you pass in, with fee-adjusted edge and stake</li>
+      <li>run_scenario: a fresh simulation under changed assumptions, compared with the baseline</li>
+      <li>get_probability_history: how probabilities moved, read from archived runs</li>
+    </ul>
+    <h2>Connecting</h2>
+    <p>The endpoint is <code>https://commodus67--sports-probabilities-mcp.apify.actor/mcp</code>. Add it as a custom connector or remote MCP server in your client and sign in with an Apify account when asked.</p>
+    <h2>4 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/nfl-playoff-odds-all-32-teams">NFL Playoff Odds: All 32 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/mlb-postseason-odds-all-30-teams">MLB Postseason Odds: All 30 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/premier-league-title-odds">Premier League Title Odds</a></li>
+      <li><a href="https://apify.com/commodus67/sports-probabilities-mcp/examples/premier-league-relegation-odds">Premier League Relegation Odds</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Which AI clients can use it?</h3>
+    <p>Any client that supports remote MCP servers over streamable HTTP, including Claude, ChatGPT and Cursor.</p>
+    <h3>Where do the numbers come from?</h3>
+    <p>From the Monte Carlo season simulators listed on this site. The server passes their results through, so an answer about the NFL is the same number the NFL simulator produces.</p>
+    <h3>Does it pull market prices automatically?</h3>
+    <p>For the NFL, MLB, NHL and NBA it reads live Kalshi prices. For soccer, or to use a bookmaker instead, you pass your own implied probabilities.</p>
+    <h3>Is this betting advice?</h3>
+    <p>No. It returns statistical estimates and the arithmetic of comparing them with a price. What to do with that is up to you.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

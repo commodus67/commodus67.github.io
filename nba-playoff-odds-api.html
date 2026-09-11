@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBA Playoff Odds API: Play-In &amp; Championship Odds</title>
+<meta name="description" content="NBA playoff, play-in, conference and championship probabilities for all 30 teams, with the play-in and best-of-seven bracket simulated game by game.">
+<link rel="canonical" href="https://commodus67.github.io/nba-playoff-odds-api">
+<meta property="og:title" content="NBA Playoff Odds API: Play-In &amp; Championship Odds">
+<meta property="og:description" content="NBA playoff, play-in, conference and championship probabilities for all 30 teams, with the play-in and best-of-seven bracket simulated game by game.">
+<meta property="og:url" content="https://commodus67.github.io/nba-playoff-odds-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "NBA Playoff Odds API", "item": "https://commodus67.github.io/nba-playoff-odds-api"}]}, {"@type": "SoftwareApplication", "name": "NBA Playoff Odds API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/nba-playoff-odds-monte-carlo", "description": "NBA playoff, play-in, conference and championship probabilities for all 30 teams, with the play-in and best-of-seven bracket simulated game by game.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why are play-in odds not the same as playoff odds?", "acceptedAnswer": {"@type": "Answer", "text": "A team in seventh through tenth still has to win one or two play-in games to reach the playoffs. The simulator plays those games, so a team can have a high chance of the play-in and a much lower chance of the playoffs. Seventh and eighth get two chances to win one game; ninth and tenth have to win twice in a row."}}, {"@type": "Question", "name": "How is the championship probability calculated?", "acceptedAnswer": {"@type": "Answer", "text": "By running the full bracket in every simulated season. The probability is the share of seasons in which a team wins four best-of-seven series."}}, {"@type": "Question", "name": "When is the model most useful?", "acceptedAnswer": {"@type": "Answer", "text": "Before the season it runs on last season's form, so it is a baseline. Once games are being played the current record and point differential take over, and it is most informative from late autumn onwards."}}, {"@type": "Question", "name": "Can I track the odds all season?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tracking example archives each run to a named dataset, which builds a history of how every team's probabilities moved."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › NBA Playoff Odds API</nav>
+    <h1>NBA playoff odds API: play-in, playoff and championship probabilities</h1>
+    <p class="lede">A Monte Carlo simulator for the NBA. It plays out the remaining regular season, the play-in tournament and all four rounds of best-of-seven series, and returns playoff, play-in, division, conference and championship probabilities for all 30 teams.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Projected wins and average conference seed</li>
+      <li>Probability of finishing in the top six, landing in the play-in band, and reaching the playoffs after the play-in</li>
+      <li>Probability of winning the division, reaching the conference finals, winning the conference and winning the championship</li>
+      <li>Model probability against live Kalshi prices, with edge and expected value after fees</li>
+      <li>Quarter-Kelly stake suggestions with caps per position and in total</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Strength comes from point differential through a Pythagorean expectation with a basketball-specific exponent, blended with the record and regressed towards a prior from last season. Each simulated season redraws the ratings to reflect how uncertain they are.</p>
+    <p>The play-in is simulated game by game rather than approximated: seventh against eighth, ninth against tenth, and the deciding game for the last seed. A team in the play-in band still has a real chance of reaching the playoffs, and that chance depends on who it would face.</p>
+    <p>The bracket is then played as four rounds of best-of-seven series with the standard home-court pattern, which is where the conference finals, conference title and championship probabilities come from.</p>
+    <h2>A note on the market comparison</h2>
+    <p>Playoff and division comparisons are returned in the dataset, one row per team. Championship and play-in comparisons against Kalshi are written to a separate key-value record of the run, so look there for those markets.</p>
+    <h2>7 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-playoff-odds-for-all-30-teams">NBA Playoff Odds for All 30 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-projected-win-totals-for-all-30-teams">NBA Projected Win Totals for All 30 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-play-in-tournament-odds-by-conference">NBA Play-In Tournament Odds by Conference</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-division-winner-and-best-record-odds">NBA Division Winner and Best Record Odds</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-championship-odds-simulated-playoff-bracket">NBA Championship Odds from a Simulated Playoff Bracket</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/nba-value-bets-vs-live-kalshi-prices">NBA Value Bets vs Live Kalshi Prices</a></li>
+      <li><a href="https://apify.com/commodus67/nba-playoff-odds-monte-carlo/examples/track-nba-playoff-odds-all-season">Track NBA Playoff Odds All Season</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why are play-in odds not the same as playoff odds?</h3>
+    <p>A team in seventh through tenth still has to win one or two play-in games to reach the playoffs. The simulator plays those games, so a team can have a high chance of the play-in and a much lower chance of the playoffs. Seventh and eighth get two chances to win one game; ninth and tenth have to win twice in a row.</p>
+    <h3>How is the championship probability calculated?</h3>
+    <p>By running the full bracket in every simulated season. The probability is the share of seasons in which a team wins four best-of-seven series.</p>
+    <h3>When is the model most useful?</h3>
+    <p>Before the season it runs on last season&#x27;s form, so it is a baseline. Once games are being played the current record and point differential take over, and it is most informative from late autumn onwards.</p>
+    <h3>Can I track the odds all season?</h3>
+    <p>Yes. The tracking example archives each run to a named dataset, which builds a history of how every team&#x27;s probabilities moved.</p>
+    <h2>Further reading</h2>
+    <p><a href="https://dev.to/commodus67/nba-play-in-odds-are-not-playoff-odds-simulating-the-play-in-tournament-instead-of-guessing-it-1kae">NBA play-in odds are not playoff odds</a> — simulating the play-in tournament and the full bracket instead of approximating them.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLB Playoff Odds API: Monte Carlo Simulator</title>
+<meta name="description" content="MLB division, wild card, postseason and top-seed odds for all 30 teams from a Monte Carlo replay of the real remaining schedule, compared with Kalshi prices.">
+<link rel="canonical" href="https://commodus67.github.io/mlb-playoff-odds-api">
+<meta property="og:title" content="MLB Playoff Odds API: Monte Carlo Simulator">
+<meta property="og:description" content="MLB division, wild card, postseason and top-seed odds for all 30 teams from a Monte Carlo replay of the real remaining schedule, compared with Kalshi prices.">
+<meta property="og:url" content="https://commodus67.github.io/mlb-playoff-odds-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "MLB Playoff Odds API", "item": "https://commodus67.github.io/mlb-playoff-odds-api"}]}, {"@type": "SoftwareApplication", "name": "MLB Playoff Odds API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/mlb-playoff-odds-monte-carlo", "description": "MLB division, wild card, postseason and top-seed odds for all 30 teams from a Monte Carlo replay of the real remaining schedule, compared with Kalshi prices.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why does a team with a losing record sometimes have a strong run differential?", "acceptedAnswer": {"@type": "Answer", "text": "Records in close games are noisy. A team that has outscored its opponents but lost more than it won will usually win more of its remaining games than its record suggests, and the Pythagorean part of the model captures that."}}, {"@type": "Question", "name": "What does the uncertainty adjustment do?", "acceptedAnswer": {"@type": "Answer", "text": "It redraws each team's strength in every simulated season. Without it every simulation assumes the model knows each team's true talent exactly, and the probabilities come out too close to 0 and 100 percent. One of the ready-made examples switches it off so you can see the difference."}}, {"@type": "Question", "name": "How is the market comparison done?", "acceptedAnswer": {"@type": "Answer", "text": "The model probability is compared with the price of a contract or with implied probabilities you pass in. Rows where the model disagrees by more than a threshold are flagged, and a quarter-Kelly stake is suggested under hard caps."}}, {"@type": "Question", "name": "Can I backtest it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Set the season to a past year to project that season from its state, then compare the probabilities with the real outcome."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › MLB Playoff Odds API</nav>
+    <h1>MLB playoff odds API: division, wild card and postseason probabilities</h1>
+    <p class="lede">A Monte Carlo simulator for baseball. It replays every remaining regular-season game on the real schedule thousands of times and returns division, wild card, postseason and top-seed probabilities for all 30 teams, with projected records.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Probability of winning the division, taking a wild card, reaching the postseason and finishing as a top seed</li>
+      <li>Projected final wins and losses</li>
+      <li>The underlying strength estimate for each team</li>
+      <li>Model probability against live Kalshi prices or prices you supply, with the edge between them</li>
+      <li>Quarter-Kelly stake suggestions with a cap per position and a cap on total exposure</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Team strength blends two things on a log-odds scale: the win-loss record, and a Pythagorean expectation from runs scored and allowed. Run differential predicts future results better than the record does, so it gets real weight. The blend is regressed towards .500 by an amount you control.</p>
+    <p>In each simulated season every team&#x27;s talent is redrawn with Gaussian noise, because a strength estimate from part of a season is uncertain. Each remaining game is decided by the logistic of the rating gap plus a home-field term, the standings are built, and the postseason field is selected under the current format.</p>
+    <p>Set a past season and the model projects it from where it stood, which lets you score it against what actually happened.</p>
+    <h2>8 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-by-team">MLB Playoff Odds by Team</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-wild-card-race-odds">MLB Wild Card Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-projected-win-totals-and-final-standings">MLB Projected Win Totals and Final Standings</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-value-bets-vs-live-kalshi-prices">MLB Value Bets vs Live Kalshi Prices</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-futures-bet-sizing-with-quarter-kelly">MLB Futures Bet Sizing with Quarter Kelly</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-from-run-differential-only">MLB Playoff Odds from Run Differential Only</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-without-the-uncertainty-adjustment">MLB Playoff Odds Without the Uncertainty Adjustment</a></li>
+      <li><a href="https://apify.com/commodus67/mlb-playoff-odds-monte-carlo/examples/mlb-playoff-odds-backtest-2025-season">MLB Playoff Odds Backtest: 2025 Season</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why does a team with a losing record sometimes have a strong run differential?</h3>
+    <p>Records in close games are noisy. A team that has outscored its opponents but lost more than it won will usually win more of its remaining games than its record suggests, and the Pythagorean part of the model captures that.</p>
+    <h3>What does the uncertainty adjustment do?</h3>
+    <p>It redraws each team&#x27;s strength in every simulated season. Without it every simulation assumes the model knows each team&#x27;s true talent exactly, and the probabilities come out too close to 0 and 100 percent. One of the ready-made examples switches it off so you can see the difference.</p>
+    <h3>How is the market comparison done?</h3>
+    <p>The model probability is compared with the price of a contract or with implied probabilities you pass in. Rows where the model disagrees by more than a threshold are flagged, and a quarter-Kelly stake is suggested under hard caps.</p>
+    <h3>Can I backtest it?</h3>
+    <p>Yes. Set the season to a past year to project that season from its state, then compare the probabilities with the real outcome.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

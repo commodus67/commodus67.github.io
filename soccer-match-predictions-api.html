@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soccer Match Predictions API: 1X2, BTTS &amp; Correct Score</title>
+<meta name="description" content="Dixon-Coles match probabilities for upcoming soccer fixtures: home, draw, away, Over/Under 2.5, both teams to score and correct score, from one consistent grid.">
+<link rel="canonical" href="https://commodus67.github.io/soccer-match-predictions-api">
+<meta property="og:title" content="Soccer Match Predictions API: 1X2, BTTS &amp; Correct Score">
+<meta property="og:description" content="Dixon-Coles match probabilities for upcoming soccer fixtures: home, draw, away, Over/Under 2.5, both teams to score and correct score, from one consistent grid.">
+<meta property="og:url" content="https://commodus67.github.io/soccer-match-predictions-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Soccer Match Predictions API", "item": "https://commodus67.github.io/soccer-match-predictions-api"}]}, {"@type": "SoftwareApplication", "name": "Soccer Match Predictions API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/soccer-dixon-coles-match-predictor", "description": "Dixon-Coles match probabilities for upcoming soccer fixtures: home, draw, away, Over/Under 2.5, both teams to score and correct score, from one consistent grid.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why use Dixon-Coles instead of a plain Poisson model?", "acceptedAnswer": {"@type": "Answer", "text": "Because a plain Poisson model misprices low-scoring results, and draws are mostly low-scoring results. The correction changes the draw probability by several percentage points, which is the same size as the margins people look for when they compare with a market."}}, {"@type": "Question", "name": "Do the markets add up?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Home, draw and away sum to one, Over and Under sum to one, and both are read from the same grid as the correct-score probabilities, so they cannot contradict each other."}}, {"@type": "Question", "name": "How much history does it use?", "acceptedAnswer": {"@type": "Answer", "text": "The ready-made examples fit on three seasons of results with time decay, and predict fixtures in the next 14 days. Both settings are inputs you can change."}}, {"@type": "Question", "name": "What happens with a newly promoted or newly added team?", "acceptedAnswer": {"@type": "Answer", "text": "There is less history to fit, so the output carries a data-quality note for fixtures involving that team. Treat those probabilities with more caution."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › Soccer Match Predictions API</nav>
+    <h1>Soccer match predictions API: 1X2, Over/Under, BTTS and correct score</h1>
+    <p class="lede">A per-match model for upcoming soccer fixtures. It fits a Dixon-Coles bivariate Poisson model to each league&#x27;s real results and returns one scoreline probability grid per match, from which every market is read.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor">Open on Apify</a> <a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/api">API reference</a> <a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Home win, draw and away win probabilities (1X2)</li>
+      <li>Over/Under 2.5 goals</li>
+      <li>Both teams to score</li>
+      <li>The most likely exact scorelines with their probabilities</li>
+      <li>Fitted expected goals for each side</li>
+      <li>Metadata on the history window used, and a data-quality note for newly added teams</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Every team gets an attack rating and a defence rating, and the league gets a home advantage. They are fitted on recent results, with exponential time decay so last month counts for more than two seasons ago.</p>
+    <p>A plain Poisson model treats home and away goals as independent. Real matches are not like that at low scores: 0-0, 1-0, 0-1 and 1-1 happen at different rates than independence predicts. Dixon and Coles (1997) added a correlation term for exactly those four scorelines, fitted from the league&#x27;s own results.</p>
+    <p>The model builds the full scoreline grid for each fixture and normalises it, so 1X2, Over/Under, BTTS and correct score all come from the same numbers and always add up.</p>
+    <h2>Why the low-score correction matters</h2>
+    <p>An illustration with the same expected goals on both models (1.35 for the home side, 1.15 for the away side): an independent Poisson grid gives a draw about 26.8% of the time. With a Dixon-Coles correlation of -0.13 the draw rises to about 30.2%. The parameter here is illustrative; in the Actor it is fitted per league.</p>
+    <h2>Leagues with ready-made examples</h2>
+    <ul>
+      <li>MLS</li>
+      <li>Liga MX</li>
+      <li>Liga de Expansion MX</li>
+      <li>USL Championship</li>
+      <li>Brasileirao Serie B</li>
+      <li>Colombia Primera A</li>
+      <li>Uruguay Primera Division</li>
+      <li>Norway Eliteserien</li>
+    </ul>
+    <h2>9 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/mls-match-predictions-1x2-over-under-btts">MLS Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/mls-correct-score-probabilities">MLS Correct Score Probabilities</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/liga-mx-match-predictions-1x2-over-under-btts">Liga MX Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/liga-de-expansion-mx-match-predictions-1x2-btts">Liga de Expansion MX Match Predictions: 1X2 &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/usl-championship-match-predictions-1x2-over-under-btts">USL Championship Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/brasileirao-serie-b-match-predictions-1x2-over-under-btts">Brasileirao Serie B Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/colombia-primera-a-match-predictions-1x2-over-under-btts">Colombia Primera A Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/uruguay-primera-division-match-predictions-1x2-btts">Uruguay Primera Division Match Predictions: 1X2 &amp; BTTS</a></li>
+      <li><a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor/examples/norway-eliteserien-match-predictions-1x2-over-under-btts">Norway Eliteserien Match Predictions: 1X2, Over/Under &amp; BTTS</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why use Dixon-Coles instead of a plain Poisson model?</h3>
+    <p>Because a plain Poisson model misprices low-scoring results, and draws are mostly low-scoring results. The correction changes the draw probability by several percentage points, which is the same size as the margins people look for when they compare with a market.</p>
+    <h3>Do the markets add up?</h3>
+    <p>Yes. Home, draw and away sum to one, Over and Under sum to one, and both are read from the same grid as the correct-score probabilities, so they cannot contradict each other.</p>
+    <h3>How much history does it use?</h3>
+    <p>The ready-made examples fit on three seasons of results with time decay, and predict fixtures in the next 14 days. Both settings are inputs you can change.</p>
+    <h3>What happens with a newly promoted or newly added team?</h3>
+    <p>There is less history to fit, so the output carries a data-quality note for fixtures involving that team. Treat those probabilities with more caution.</p>
+    <h2>Further reading</h2>
+    <p><a href="https://dev.to/commodus67/correct-score-btts-and-overunder-probabilities-with-dixon-coles-what-i-learned-building-it-for-39dc">Correct score, BTTS and Over/Under probabilities with Dixon-Coles</a> — why a plain Poisson model underprices draws, and what a per-match prediction looks like for MLS and Liga MX.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

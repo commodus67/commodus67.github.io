@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NHL Playoff Odds API: Wild Card &amp; Presidents&#x27; Trophy</title>
+<meta name="description" content="NHL playoff, wild card and Presidents&#x27; Trophy odds for all 32 teams, with overtime and the loser point simulated, priced against live Kalshi contracts.">
+<link rel="canonical" href="https://commodus67.github.io/nhl-playoff-odds-api">
+<meta property="og:title" content="NHL Playoff Odds API: Wild Card &amp; Presidents&#x27; Trophy">
+<meta property="og:description" content="NHL playoff, wild card and Presidents&#x27; Trophy odds for all 32 teams, with overtime and the loser point simulated, priced against live Kalshi contracts.">
+<meta property="og:url" content="https://commodus67.github.io/nhl-playoff-odds-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "NHL Playoff Odds API", "item": "https://commodus67.github.io/nhl-playoff-odds-api"}]}, {"@type": "SoftwareApplication", "name": "NHL Playoff Odds API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/nhl-playoff-odds-monte-carlo", "description": "NHL playoff, wild card and Presidents' Trophy odds for all 32 teams, with overtime and the loser point simulated, priced against live Kalshi contracts.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why simulate the loser point instead of wins and losses?", "acceptedAnswer": {"@type": "Answer", "text": "Because NHL standings are in points, and a team that loses often in overtime collects points that a win-loss model ignores. Wild card races are frequently decided by a few of those points."}}, {"@type": "Question", "name": "How does the wild card rule work in the simulation?", "acceptedAnswer": {"@type": "Answer", "text": "In every simulated season the top three teams in each division qualify, then the two best remaining teams in each conference take the wild cards. The probability is simply how often a team ends up in that group."}}, {"@type": "Question", "name": "Why can the model disagree strongly with the market before the season?", "acceptedAnswer": {"@type": "Answer", "text": "Preseason disagreements are mostly about the offseason: trades, signings and injuries the model does not see. The model's prior is last season's performance, so large early gaps are a question about roster changes rather than a signal on their own."}}, {"@type": "Question", "name": "Can I build a history of the odds?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tracking example archives every run to a named dataset, so you end up with a record of how each team's probability moved through the season."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › NHL Playoff Odds API</nav>
+    <h1>NHL playoff odds API: wild card, division and Presidents&#x27; Trophy probabilities</h1>
+    <p class="lede">A Monte Carlo simulator for the NHL regular season. Overtime, shootouts and the loser point are simulated explicitly, the real playoff qualification rules are applied to every simulated season, and the result is priced against live Kalshi contracts.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Projected points for all 32 teams</li>
+      <li>Probability of making the playoffs, winning the division, taking a wild card, finishing first in the conference and winning the Presidents&#x27; Trophy</li>
+      <li>Model probability against live Kalshi prices, with expected value after exchange fees</li>
+      <li>A suggested action and a Kelly-based stake for each contract</li>
+      <li>A strength estimate per team</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Team strength combines a Pythagorean expectation from goals for and against with the points record and a prior carried over from last season. That prior matters most in October and fades as games are played.</p>
+    <p>Hockey standings are shaped by games that go past regulation. The simulator decides whether each game reaches overtime, resolves overtime and shootouts with a damped strength gap, and awards the loser point, so projected points behave like real NHL points.</p>
+    <p>Each simulated season is run through the actual qualification rules: the top three in each division plus two wild cards per conference, sixteen teams in all. The schedule length is read from the real schedule rather than hard-coded, which matters in 2026-27, the first 84-game season.</p>
+    <h2>How the market comparison works</h2>
+    <p>Qualification contracts are treated as separate yes/no markets whose model probabilities sum to the sixteen playoff places. Division winner markets are treated as a field of mutually exclusive outcomes, with the overround removed before comparing. Expected value is computed after the exchange fee.</p>
+    <h2>7 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-playoff-odds-all-32-teams">NHL Playoff Odds: All 32 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-projected-points-standings-all-32-teams">NHL Projected Points Standings for All 32 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-wild-card-odds-all-32-teams">NHL Wild Card Odds for All 32 Teams</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-presidents-trophy-odds">NHL Presidents’ Trophy Odds from Simulated Seasons</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-division-winner-odds-vs-kalshi">NHL Division Winner Odds vs Kalshi</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/nhl-value-bets-vs-live-kalshi-prices">NHL Value Bets vs Live Kalshi Prices</a></li>
+      <li><a href="https://apify.com/commodus67/nhl-playoff-odds-monte-carlo/examples/track-nhl-playoff-odds-all-season">Track NHL Playoff Odds All Season</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why simulate the loser point instead of wins and losses?</h3>
+    <p>Because NHL standings are in points, and a team that loses often in overtime collects points that a win-loss model ignores. Wild card races are frequently decided by a few of those points.</p>
+    <h3>How does the wild card rule work in the simulation?</h3>
+    <p>In every simulated season the top three teams in each division qualify, then the two best remaining teams in each conference take the wild cards. The probability is simply how often a team ends up in that group.</p>
+    <h3>Why can the model disagree strongly with the market before the season?</h3>
+    <p>Preseason disagreements are mostly about the offseason: trades, signings and injuries the model does not see. The model&#x27;s prior is last season&#x27;s performance, so large early gaps are a question about roster changes rather than a signal on their own.</p>
+    <h3>Can I build a history of the odds?</h3>
+    <p>Yes. The tracking example archives every run to a named dataset, so you end up with a record of how each team&#x27;s probability moved through the season.</p>
+    <h2>Further reading</h2>
+    <p><a href="https://dev.to/commodus67/nhl-playoff-odds-for-2026-27-84-games-the-wild-card-rule-and-why-i-dont-trust-my-own-model-in-10hm">NHL playoff odds for 2026-27: 84 games and the wild card rule</a> — simulating points, overtime and the 3+2 qualification rule, and why pre-season gaps against the market are mostly the offseason.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>

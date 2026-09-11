@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soccer Predictions API: Title, Top-4 &amp; Relegation Odds</title>
+<meta name="description" content="Monte Carlo title, top-four, qualification, playoff and relegation probabilities for the Premier League, LaLiga, Serie A, MLS, Liga MX and more, as JSON.">
+<link rel="canonical" href="https://commodus67.github.io/soccer-predictions-api">
+<meta property="og:title" content="Soccer Predictions API: Title, Top-4 &amp; Relegation Odds">
+<meta property="og:description" content="Monte Carlo title, top-four, qualification, playoff and relegation probabilities for the Premier League, LaLiga, Serie A, MLS, Liga MX and more, as JSON.">
+<meta property="og:url" content="https://commodus67.github.io/soccer-predictions-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Soccer Predictions API", "item": "https://commodus67.github.io/soccer-predictions-api"}]}, {"@type": "SoftwareApplication", "name": "Soccer Predictions API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/football-soccer-monte-carlo-predictor", "description": "Monte Carlo title, top-four, qualification, playoff and relegation probabilities for the Premier League, LaLiga, Serie A, MLS, Liga MX and more, as JSON.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why can a club high in the table have a low title probability?", "acceptedAnswer": {"@type": "Answer", "text": "Because the table only records what has already happened. The simulation also weighs how strong each club is and who it still has to play. Early in a season, two clubs on the same points can be tens of percentage points apart in title or relegation probability."}}, {"@type": "Question", "name": "How is this different from a match prediction model?", "acceptedAnswer": {"@type": "Answer", "text": "This model answers season questions: who wins the league, who goes down. It resolves each simulated match from the strength gap, which is right for a season but too coarse to price one specific fixture. For single matches there is a separate Dixon-Coles model, listed below."}}, {"@type": "Question", "name": "Can I compare the output with bookmaker odds?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Pass implied probabilities for the markets you care about and each row comes back with the model probability, the market probability and the edge between them."}}, {"@type": "Question", "name": "How often should I run it?", "acceptedAnswer": {"@type": "Answer", "text": "After each matchday is enough for a season forecast. A daily schedule on Apify also works and gives you a history of how the probabilities moved, which cannot be rebuilt later."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › Soccer Predictions API</nav>
+    <h1>Soccer predictions API: title, top-four and relegation odds</h1>
+    <p class="lede">A season simulator for soccer leagues. It takes the live table and the real remaining fixture list, plays the rest of the season thousands of times, and returns the probability of each club winning the league, finishing in the qualification places, reaching a playoff or going down.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor">Open on Apify</a> <a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/api">API reference</a> <a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>Probability of winning the title, for every club in the league</li>
+      <li>Probability of a top-four finish, of continental or promotion places, and of reaching a playoff where the league has one</li>
+      <li>Probability of relegation</li>
+      <li>Projected final points and a strength rating for each club</li>
+      <li>Run-in difficulty: the average strength of the opponents a club still has to play</li>
+      <li>Optional edge against bookmaker prices you pass in, with a value flag</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Each club&#x27;s strength blends its current-season form from the live standings with a baseline built from previous seasons, so a club three matches into the season is not judged on three matches alone. A home advantage is applied to every simulated fixture.</p>
+    <p>In each simulated season the strengths are redrawn from a distribution rather than fixed, which keeps the output from becoming overconfident. Every remaining fixture is then resolved from the strength gap between the two clubs, the final table is built, and the league&#x27;s own rules decide who finished where.</p>
+    <p>Those rules differ a lot between competitions. The simulator knows the number of qualification and relegation places per league, playoff formats and split tables, and it can run several leagues in one job.</p>
+    <h2>Leagues covered</h2>
+    <p>Around 17 leagues from ESPN&#x27;s public feeds, including the Premier League, Championship, LaLiga, Serie A, Bundesliga, Ligue 1, Eredivisie, Primeira Liga, Super Lig, Brasileirao, Liga MX and MLS. Several leagues can be simulated in the same run.</p>
+    <h2>16 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/americas-soccer-leagues-season-odds">Americas Soccer Leagues Season Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/top-five-european-leagues-title-odds">Top Five European Leagues Title Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/premier-league-title-race-odds">Premier League Title Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/premier-league-relegation-survival-odds">Premier League Relegation Survival Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/championship-promotion-and-playoff-odds">Championship Promotion and Playoff Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/laliga-title-race-odds">LaLiga Title Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/serie-a-champions-league-qualification-odds">Serie A Champions League Qualification Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/bundesliga-title-and-top-four-odds">Bundesliga Title and Top Four Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/ligue-1-title-race-odds">Ligue 1 Title Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/eredivisie-title-and-european-spots-odds">Eredivisie Title and European Spots Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/primeira-liga-title-race-odds">Primeira Liga Title Race Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/super-lig-title-and-relegation-odds">Super Lig Title and Relegation Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/brasileirao-libertadores-qualification-odds">Brasileirao Libertadores Qualification Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/liga-mx-liguilla-qualification-odds">Liga MX Liguilla Qualification Odds</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/mls-playoff-odds-by-team">MLS Playoff Odds by Team</a></li>
+      <li><a href="https://apify.com/commodus67/football-soccer-monte-carlo-predictor/examples/football-value-bets-vs-bookmaker-odds">Football Value Bets vs Bookmaker Odds</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why can a club high in the table have a low title probability?</h3>
+    <p>Because the table only records what has already happened. The simulation also weighs how strong each club is and who it still has to play. Early in a season, two clubs on the same points can be tens of percentage points apart in title or relegation probability.</p>
+    <h3>How is this different from a match prediction model?</h3>
+    <p>This model answers season questions: who wins the league, who goes down. It resolves each simulated match from the strength gap, which is right for a season but too coarse to price one specific fixture. For single matches there is a separate Dixon-Coles model, listed below.</p>
+    <h3>Can I compare the output with bookmaker odds?</h3>
+    <p>Yes. Pass implied probabilities for the markets you care about and each row comes back with the model probability, the market probability and the edge between them.</p>
+    <h3>How often should I run it?</h3>
+    <p>After each matchday is enough for a season forecast. A daily schedule on Apify also works and gives you a history of how the probabilities moved, which cannot be rebuilt later.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+  </footer>
+</div>
+</body>
+</html>
