@@ -8,7 +8,13 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-1XML9M4WYT');
+  var gaInternal = false;
+  try {
+    if (/[?&]internal=1(&|$)/.test(location.search)) localStorage.setItem('ga_internal', '1');
+    if (/[?&]internal=0(&|$)/.test(location.search)) localStorage.removeItem('ga_internal');
+    gaInternal = localStorage.getItem('ga_internal') === '1';
+  } catch (e) {}
+  gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
