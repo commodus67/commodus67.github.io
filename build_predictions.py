@@ -16,14 +16,14 @@ INPUT = {"seasonsBack": 3, "xi": 0.0018, "upcomingDays": 14, "maxGoals": 10}
 OUT = "soccer-predictions-demo.html"
 
 LEAGUES = [
-    ("usa.1", "MLS", "\U0001F1FA\U0001F1F8"),
-    ("mex.1", "Liga MX", "\U0001F1F2\U0001F1FD"),
-    ("mex.2", "Liga de Expansion MX", "\U0001F1F2\U0001F1FD"),
-    ("bra.2", "Brasileirao Serie B", "\U0001F1E7\U0001F1F7"),
-    ("usa.usl.1", "USL Championship", "\U0001F1FA\U0001F1F8"),
-    ("col.1", "Colombia Primera A", "\U0001F1E8\U0001F1F4"),
-    ("uru.1", "Uruguay Primera Division", "\U0001F1FA\U0001F1FE"),
-    ("nor.1", "Eliteserien", "\U0001F1F3\U0001F1F4"),
+    ("usa.1", "MLS", "US"),
+    ("mex.1", "Liga MX", "MX"),
+    ("mex.2", "Liga de Expansion MX", "MX"),
+    ("bra.2", "Brasileirao Serie B", "BR"),
+    ("usa.usl.1", "USL Championship", "US"),
+    ("col.1", "Colombia Primera A", "CO"),
+    ("uru.1", "Uruguay Primera Division", "UY"),
+    ("nor.1", "Eliteserien", "NO"),
 ]
 
 NAMES = {
@@ -53,6 +53,9 @@ HTML = r"""<!DOCTYPE html>
   h1{font-size:27px;font-weight:900;letter-spacing:-1.2px;background:linear-gradient(135deg,#00e676,#00bcd4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#00e676;line-height:1.15}
   .chip{padding:6px 11px;border-radius:8px;border:none;cursor:pointer;font-size:11.5px;font-weight:700;background:#111d38;color:#5a6a99;transition:background .15s,color .15s;font-family:inherit}
   .chip[aria-pressed="true"]{background:#00e676;color:#070c1a}
+  .cc{display:inline-block;font-style:normal;font-size:9px;font-weight:800;letter-spacing:.5px;
+      padding:2px 4px;margin-right:6px;border-radius:4px;background:#1e2b4d;color:#8fa3d4;vertical-align:1px}
+  .chip[aria-pressed="true"] .cc{background:#0a3b22;color:#00e676}
   .chip:focus-visible{outline:2px solid #00bcd4;outline-offset:2px}
   .mrow{display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;
         background:transparent;border:none;border-bottom:1px solid #141d35;padding:9px 6px;cursor:pointer;color:inherit;font-family:inherit;font-size:13px}
@@ -170,7 +173,7 @@ HTML = r"""<!DOCTYPE html>
 
   DATA.leagues.forEach(function(l,i){
     var b=document.createElement("button");
-    b.className="chip";b.type="button";b.textContent=l.flag+" "+l.name;
+    b.className="chip";b.type="button";b.innerHTML='<i class="cc">'+esc(l.flag)+'</i>'+esc(l.name);
     b.setAttribute("aria-pressed",i===0?"true":"false");
     b.onclick=function(){state.li=i;state.mi=0;renderLeagues();renderMatches();renderDetail();
       elM.scrollTop=0;};
