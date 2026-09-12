@@ -16,6 +16,11 @@ INPUT = {"seasonsBack": 3, "xi": 0.0018, "upcomingDays": 14, "maxGoals": 10}
 OUT = "soccer-predictions-demo.html"
 
 LEAGUES = [
+    ("eng.1", "Premier League", "EN"),
+    ("esp.1", "LaLiga", "ES"),
+    ("ita.1", "Serie A", "IT"),
+    ("ger.1", "Bundesliga", "DE"),
+    ("fra.1", "Ligue 1", "FR"),
     ("usa.1", "MLS", "US"),
     ("mex.1", "Liga MX", "MX"),
     ("mex.2", "Liga de Expansion MX", "MX"),
@@ -39,7 +44,7 @@ HTML = r"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds</title>
-<meta name="description" content="Dixon-Coles match probabilities for MLS, Liga MX, Brasileirao Serie B, USL Championship, Colombia, Uruguay and Eliteserien. 1X2, Over/Under, Both Teams To Score and exact scorelines. No API key needed.">
+<meta name="description" content="Dixon-Coles match probabilities for the Premier League, LaLiga, Serie A, Bundesliga, Ligue 1, MLS, Liga MX, Brasileirao Serie B, USL Championship, Colombia, Uruguay and Eliteserien. 1X2, Over/Under, Both Teams To Score and exact scorelines. No API key needed.">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#070c1a;color:#e8eaf6;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -57,6 +62,8 @@ HTML = r"""<!DOCTYPE html>
       padding:2px 4px;margin-right:6px;border-radius:4px;background:#1e2b4d;color:#8fa3d4;vertical-align:1px}
   .chip[aria-pressed="true"] .cc{background:#0a3b22;color:#00e676}
   .chip:focus-visible{outline:2px solid #00bcd4;outline-offset:2px}
+  .lowd{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.5px;
+        padding:1px 4px;margin-left:6px;border-radius:3px;background:#3a2c0a;color:#ffd600;vertical-align:1px}
   .mrow{display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;
         background:transparent;border:none;border-bottom:1px solid #141d35;padding:9px 6px;cursor:pointer;color:inherit;font-family:inherit;font-size:13px}
   .mrow:last-child{border-bottom:none}
@@ -193,7 +200,7 @@ HTML = r"""<!DOCTYPE html>
       b.className="mrow";b.type="button";
       b.setAttribute("aria-current",i===state.mi?"true":"false");
       b.innerHTML='<span class="d">'+when(m.k)+'</span>'+
-        '<span class="t"><b>'+esc(m.h)+'</b><br><span style="color:#7986cb">'+esc(m.a)+'</span></span>'+
+        '<span class="t"><b>'+esc(m.h)+'</b><br><span style="color:#7986cb">'+esc(m.a)+'</span>'+(m.q?'<span class="lowd">LOW DATA</span>':'')+'</span>'+
         '<span class="mini" title="1X2"><i style="flex:'+mk.p1+';background:#00e676"></i>'+
         '<i style="flex:'+mk.px+';background:#ffd600"></i>'+
         '<i style="flex:'+mk.p2+';background:#ff4081"></i></span>';
@@ -238,6 +245,12 @@ HTML = r"""<!DOCTYPE html>
     }else{
       h+='<div class="card" style="border-color:#ffd600;text-align:center;margin-bottom:12px">'+
          '<div style="font-size:18px;font-weight:900;color:#ffd600">&#9878;&#65039; Too close to call</div></div>';
+    }
+
+    if(m.q){
+      h+='<div class="card" style="border-color:#ffd600;background:#14120a;margin-bottom:12px;font-size:11.5px;color:#c9b458;line-height:1.55">'+
+         '<b style="color:#ffd600">Low data.</b> One of these teams has fewer than 10 matches in the fitted history, typically a side newly promoted this season. '+
+         'The model still returns a full set of probabilities, but the rating behind them rests on a small sample and will move a lot over the next few weeks.</div>';
     }
 
     h+='<div class="card" style="margin-bottom:12px">'+
@@ -340,6 +353,7 @@ def main():
                 "a": r["awayTeam"],
                 "lh": round(r["lambdaHome"], 6),
                 "la": round(r["lambdaAway"], 6),
+                "q": 0 if r.get("dataQuality") == "full" else 1,
             }
             for r in rows
             if r.get("lambdaHome") is not None and r.get("lambdaAway") is not None
