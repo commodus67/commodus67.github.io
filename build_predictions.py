@@ -41,6 +41,21 @@ NAMES = {
 HTML = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1XML9M4WYT"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+var gaInternal = false;
+try {
+  if (/[?&]internal=1(&|$)/.test(location.search)) localStorage.setItem('ga_internal', '1');
+  if (/[?&]internal=0(&|$)/.test(location.search)) localStorage.removeItem('ga_internal');
+  gaInternal = localStorage.getItem('ga_internal') === '1';
+} catch (e) {}
+gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds</title>
