@@ -14,6 +14,9 @@ import urllib.request
 ACTOR = "commodus67~soccer-dixon-coles-match-predictor"
 INPUT = {"seasonsBack": 3, "xi": 0.0018, "upcomingDays": 14, "maxGoals": 10}
 OUT = "soccer-predictions-demo.html"
+# A league whose fit used fewer finished matches than this is treated as a
+# data-source failure (ESPN outage), not as a real model.
+MIN_HISTORY = 100
 
 LEAGUES = [
     ("eng.1", "Premier League", "EN"),
@@ -396,23 +399,74 @@ def fetch(slug, token):
         return json.load(resp)
 
 
+def previous_leagues():
+    """Leagues from the page currently in the repo whose fit looks sound."""
+    try:
+        with open(OUT, encoding="utf-8") as fh:
+            html = fh.read()
+        tag = '<script id="payload" type="application/json">'
+        start = html.index(tag) + len(tag)
+        doc = json.loads(html[start:html.index("</script>", start)])
+    except (OSError, ValueError):
+        return {}
+    return {
+        lg["slug"]: lg for lg in doc.get("leagues", [])
+        if (lg.get("historyMatches") or 0) >= MIN_HISTORY
+    }
+
+
+def carry_forward(league):
+    """Previous run's league, minus fixtures that have already kicked off."""
+    if not league:
+        return None
+    now = datetime.datetime.now(datetime.timezone.utc)
+    upcoming = []
+    for m in league["matches"]:
+        try:
+            ko = datetime.datetime.fromisoformat(m["k"].replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if ko.tzinfo is None:
+            ko = ko.replace(tzinfo=datetime.timezone.utc)
+        if ko > now:
+            upcoming.append(m)
+    if not upcoming:
+        return None
+    return dict(league, matches=upcoming)
+
+
 def main():
     token = os.environ.get("APIFY_TOKEN", "").strip()
     if not token:
         sys.exit("APIFY_TOKEN is not set. Add it as a repository secret.")
 
-    leagues, total = [], 0
+    leagues, total, fresh = [], 0, 0
+    previous = previous_leagues()
     for slug, name, flag in LEAGUES:
         try:
             rows = fetch(slug, token)
+            problem = None
+            if rows and (rows[0].get("historyMatches") or 0) < MIN_HISTORY:
+                problem = "only %s finished matches fitted" % rows[0].get("historyMatches")
         except (urllib.error.URLError, TimeoutError) as exc:
-            # One league failing (e.g. ESPN refusing a date range) must not freeze the
-            # whole page: skip it like an empty league and keep the rest fresh.
-            print("  %-12s Actor call failed (%s), skipped" % (slug, getattr(exc, "code", None) or exc))
+            rows = None
+            problem = "Actor call failed (%s)" % (getattr(exc, "code", None) or exc)
+        if problem:
+            # A failing data source (e.g. ESPN refusing date ranges) must neither
+            # freeze the whole page nor publish a model fitted on nothing: keep
+            # the previous run's numbers for that league if we have them.
+            kept = carry_forward(previous.get(slug))
+            if kept:
+                leagues.append(kept)
+                total += len(kept["matches"])
+                print("  %-12s %s, kept previous run (%d matches)" % (slug, problem, len(kept["matches"])))
+            else:
+                print("  %-12s %s, skipped" % (slug, problem))
             continue
         if not rows:
             print("  %-12s no upcoming fixtures, skipped" % slug)
             continue
+        fresh += 1
         matches = [
             {
                 "k": r["kickoff"],
@@ -437,6 +491,8 @@ def main():
         total += len(matches)
         print("  %-12s %3d matches" % (slug, len(matches)))
 
+    if fresh == 0:
+        sys.exit("No league returned a usable fresh fit; keeping the published page.")
     if total == 0:
         sys.exit("Every league came back empty; refusing to publish an empty page.")
 
