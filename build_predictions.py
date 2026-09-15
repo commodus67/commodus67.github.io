@@ -60,6 +60,20 @@ gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds</title>
 <meta name="description" content="Dixon-Coles match probabilities for the Premier League, LaLiga, Serie A, Bundesliga, Ligue 1, MLS, Liga MX, Brasileirao Serie B, USL Championship, Colombia, Uruguay and Eliteserien. 1X2, Over/Under, Both Teams To Score and exact scorelines. No API key needed.">
+<link rel="canonical" href="https://commodus67.github.io/soccer-predictions-demo">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="commodus67">
+<meta property="og:url" content="https://commodus67.github.io/soccer-predictions-demo">
+<meta property="og:title" content="Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds">
+<meta property="og:description" content="Dixon-Coles match probabilities for 13 leagues. 1X2, Over/Under 2.5, Both Teams To Score and exact scorelines, all from one probability grid. Free, no signup, no API key.">
+<meta property="og:image" content="https://commodus67.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Soccer Match Predictions — Dixon-Coles bivariate Poisson">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds">
+<meta name="twitter:description" content="Dixon-Coles match probabilities for 13 leagues. 1X2, Over/Under 2.5, Both Teams To Score and exact scorelines, all from one probability grid. Free, no signup, no API key.">
+<meta name="twitter:image" content="https://commodus67.github.io/og-image.png">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#070c1a;color:#e8eaf6;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
