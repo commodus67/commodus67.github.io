@@ -74,6 +74,15 @@ gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
 <meta name="twitter:title" content="Soccer Match Predictions — 1X2, Over/Under &amp; BTTS Odds">
 <meta name="twitter:description" content="Dixon-Coles match probabilities for 13 leagues. 1X2, Over/Under 2.5, Both Teams To Score and exact scorelines, all from one probability grid. Free, no signup, no API key.">
 <meta name="twitter:image" content="https://commodus67.github.io/og-image.png">
+<link rel="manifest" href="/soccer-predictions-demo.webmanifest">
+<meta name="theme-color" content="#070c1a">
+<link rel="icon" type="image/png" sizes="48x48" href="/demo-favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/demo-icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Soccer Odds">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#070c1a;color:#e8eaf6;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -122,6 +131,7 @@ gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
     <h1><span style="-webkit-text-fill-color:initial;color:initial">&#9917;</span> Soccer Match Predictions</h1>
     <p style="color:#3a4a70;margin-top:5px;font-size:12px">1X2 &middot; Over/Under &middot; Both Teams To Score &middot; Exact score</p>
     <p id="hdrStats" style="color:#2f3c63;margin-top:3px;font-size:11px"></p>
+<button id="installBtn" class="chip" type="button" hidden style="margin-top:9px;background:#00e676;color:#070c1a">&#11015; Install app</button>
   </header>
 
   <section class="card" style="margin-bottom:12px">
@@ -340,6 +350,31 @@ gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
   }
 
   renderMatches();renderDetail();
+})();
+</script>
+<script>
+(function(){
+if ("serviceWorker" in navigator) {
+window.addEventListener("load", function(){
+navigator.serviceWorker.register("/soccer-predictions-sw.js", {scope: "/soccer-predictions-demo"}).catch(function(){});
+});
+}
+var deferred = null, btn = document.getElementById("installBtn");
+window.addEventListener("beforeinstallprompt", function(e){
+e.preventDefault(); deferred = e; btn.hidden = false;
+});
+btn.addEventListener("click", function(){
+if (!deferred) return;
+deferred.prompt();
+deferred.userChoice.then(function(c){
+if (window.gtag) gtag("event", "pwa_install_prompt", {outcome: c.outcome});
+deferred = null; btn.hidden = true;
+});
+});
+window.addEventListener("appinstalled", function(){
+btn.hidden = true;
+if (window.gtag) gtag("event", "pwa_installed");
+});
 })();
 </script>
 </body>
