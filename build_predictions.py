@@ -405,8 +405,11 @@ def main():
     for slug, name, flag in LEAGUES:
         try:
             rows = fetch(slug, token)
-        except urllib.error.HTTPError as exc:
-            sys.exit("Actor call failed for %s: HTTP %s" % (slug, exc.code))
+        except (urllib.error.URLError, TimeoutError) as exc:
+            # One league failing (e.g. ESPN refusing a date range) must not freeze the
+            # whole page: skip it like an empty league and keep the rest fresh.
+            print("  %-12s Actor call failed (%s), skipped" % (slug, getattr(exc, "code", None) or exc))
+            continue
         if not rows:
             print("  %-12s no upcoming fixtures, skipped" % slug)
             continue
