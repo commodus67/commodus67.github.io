@@ -18,14 +18,14 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sports Probability APIs: NFL, MLB, NHL, NBA &amp; Soccer</title>
-<meta name="description" content="Monte Carlo playoff, title and match probabilities for NFL, MLB, NHL, NBA and soccer as APIs and an MCP server, with 61 ready-made examples.">
+<title>Sports Probability APIs: NFL, MLB, NHL, NBA, Soccer &amp; Tennis</title>
+<meta name="description" content="Monte Carlo playoff, title and match probabilities for NFL, MLB, NHL, NBA, soccer and tennis as APIs and an MCP server, with 63 ready-made examples.">
 <link rel="canonical" href="https://commodus67.github.io/">
-<meta property="og:title" content="Sports Probability APIs: NFL, MLB, NHL, NBA &amp; Soccer">
+<meta property="og:title" content="Sports Probability APIs: NFL, MLB, NHL, NBA, Soccer &amp; Tennis">
 <meta property="og:description" content="Monte Carlo sports probability models published as APIs and an MCP server.">
 <meta property="og:url" content="https://commodus67.github.io/">
 <meta property="og:type" content="website">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}, {"@type": "ItemList", "name": "Monte Carlo sports probability APIs", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://commodus67.github.io/soccer-predictions-api", "name": "Soccer Predictions API"}, {"@type": "ListItem", "position": 2, "url": "https://commodus67.github.io/soccer-match-predictions-api", "name": "Soccer Match Predictions API"}, {"@type": "ListItem", "position": 3, "url": "https://commodus67.github.io/mlb-playoff-odds-api", "name": "MLB Playoff Odds API"}, {"@type": "ListItem", "position": 4, "url": "https://commodus67.github.io/nfl-playoff-odds-api", "name": "NFL Playoff Odds API"}, {"@type": "ListItem", "position": 5, "url": "https://commodus67.github.io/nhl-playoff-odds-api", "name": "NHL Playoff Odds API"}, {"@type": "ListItem", "position": 6, "url": "https://commodus67.github.io/nba-playoff-odds-api", "name": "NBA Playoff Odds API"}, {"@type": "ListItem", "position": 7, "url": "https://commodus67.github.io/sports-probabilities-mcp-server", "name": "Sports Probabilities MCP Server"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}, {"@type": "ItemList", "name": "Monte Carlo sports probability APIs", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://commodus67.github.io/soccer-predictions-api", "name": "Soccer Predictions API"}, {"@type": "ListItem", "position": 2, "url": "https://commodus67.github.io/soccer-match-predictions-api", "name": "Soccer Match Predictions API"}, {"@type": "ListItem", "position": 3, "url": "https://commodus67.github.io/mlb-playoff-odds-api", "name": "MLB Playoff Odds API"}, {"@type": "ListItem", "position": 4, "url": "https://commodus67.github.io/nfl-playoff-odds-api", "name": "NFL Playoff Odds API"}, {"@type": "ListItem", "position": 5, "url": "https://commodus67.github.io/nhl-playoff-odds-api", "name": "NHL Playoff Odds API"}, {"@type": "ListItem", "position": 6, "url": "https://commodus67.github.io/nba-playoff-odds-api", "name": "NBA Playoff Odds API"}, {"@type": "ListItem", "position": 7, "url": "https://commodus67.github.io/sports-probabilities-mcp-server", "name": "Sports Probabilities MCP Server"}, {"@type": "ListItem", "position": 8, "url": "https://commodus67.github.io/tennis-match-winner-api", "name": "Tennis Match Winner API"}]}]}</script>
 <style>
 :root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
@@ -65,10 +65,10 @@ footer a{color:var(--muted)}
 <body>
 <div class="wrap">
   <header class="top">
-    <h1>Monte Carlo probabilities for NFL, MLB, NHL, NBA and soccer</h1>
-    <p class="lede">Seven probability models by Elio Liberatore, published on Apify as APIs and as an MCP server for AI agents. Public data goes in, the rest of the season or the next match is simulated thousands of times, and fair probabilities come out as JSON, CSV or an API response.</p>
+    <h1>Monte Carlo probabilities for NFL, MLB, NHL, NBA, soccer and tennis</h1>
+    <p class="lede">Eight probability models by Elio Liberatore, published on Apify as APIs and as an MCP server for AI agents. Public data goes in, the rest of the season or the next match is simulated thousands of times, and fair probabilities come out as JSON, CSV or an API response.</p>
     <p class="links"><a class="btn" href="/soccer-predictions-demo">Try the live demo</a> Model probabilities for the coming week of matches, computed in your browser. No sign-up, no API key.</p>
-    <nav class="toc" aria-label="Models"><a href="#football-soccer-monte-carlo-predictor">Soccer Predictions API</a> <a href="#soccer-dixon-coles-match-predictor">Soccer Match Predictions API</a> <a href="#mlb-playoff-odds-monte-carlo">MLB Playoff Odds API</a> <a href="#nfl-playoff-odds-api-monte-carlo-simulator">NFL Playoff Odds API</a> <a href="#nhl-playoff-odds-monte-carlo">NHL Playoff Odds API</a> <a href="#nba-playoff-odds-monte-carlo">NBA Playoff Odds API</a> <a href="#sports-probabilities-mcp">Sports Probabilities MCP Server</a></nav>
+    <nav class="toc" aria-label="Models"><a href="#football-soccer-monte-carlo-predictor">Soccer Predictions API</a> <a href="#soccer-dixon-coles-match-predictor">Soccer Match Predictions API</a> <a href="#mlb-playoff-odds-monte-carlo">MLB Playoff Odds API</a> <a href="#nfl-playoff-odds-api-monte-carlo-simulator">NFL Playoff Odds API</a> <a href="#nhl-playoff-odds-monte-carlo">NHL Playoff Odds API</a> <a href="#nba-playoff-odds-monte-carlo">NBA Playoff Odds API</a> <a href="#tennis-match-winner-monte-carlo">Tennis Match Winner API</a> <a href="#sports-probabilities-mcp">Sports Probabilities MCP Server</a></nav>
   </header>
   <main>
     <section class="actor" id="football-soccer-monte-carlo-predictor">
@@ -206,6 +206,21 @@ footer a{color:var(--muted)}
         </ul>
       </details>
     </section>
+    <section class="actor" id="tennis-match-winner-monte-carlo">
+      <header>
+        <h2><a href="/tennis-match-winner-api">Tennis Match Winner API</a></h2>
+        <p class="tag">ATP/WTA singles match-winner probabilities, live and pre-match</p>
+      </header>
+      <p>A Bradley-Terry model on current ATP/WTA ranking points projects every live and upcoming singles match, re-projecting matches already in progress set by set from the live score, and prices each one against live Kalshi KXATPMATCH/KXWTAMATCH contracts with a suggested half-Kelly stake.</p>
+      <p class="links"><a class="btn" href="https://apify.com/commodus67/tennis-match-winner-monte-carlo">Open on Apify</a> <a href="/tennis-match-winner-api">How it works and FAQ</a> <a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/input-schema">Input schema</a></p>
+      <details open>
+        <summary>2 ready-made examples</summary>
+        <ul class="ex">
+          <li><a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/examples/tennis-match-winner-projections">ATP/WTA Match Winner Projections</a></li>
+          <li><a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/examples/tennis-value-bets-vs-kalshi">ATP/WTA Value Bets vs Live Kalshi Prices</a></li>
+        </ul>
+      </details>
+    </section>
     <section class="actor" id="sports-probabilities-mcp">
       <header>
         <h2><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a></h2>
@@ -244,7 +259,7 @@ footer a{color:var(--muted)}
   </main>
   <footer>
     <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
-    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-11</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-24</p>
   </footer>
 </div>
 </body>

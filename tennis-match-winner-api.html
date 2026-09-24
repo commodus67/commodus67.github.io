@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1XML9M4WYT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  var gaInternal = false;
+  try {
+    if (/[?&]internal=1(&|$)/.test(location.search)) localStorage.setItem('ga_internal', '1');
+    if (/[?&]internal=0(&|$)/.test(location.search)) localStorage.removeItem('ga_internal');
+    gaInternal = localStorage.getItem('ga_internal') === '1';
+  } catch (e) {}
+  gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tennis Match Winner API: ATP/WTA Monte Carlo + Kalshi</title>
+<meta name="description" content="Live and upcoming ATP/WTA singles match-winner probabilities from a Monte Carlo model on ranking points, priced against live Kalshi KXATPMATCH/KXWTAMATCH contracts.">
+<link rel="canonical" href="https://commodus67.github.io/tennis-match-winner-api">
+<meta property="og:title" content="Tennis Match Winner API: ATP/WTA Monte Carlo + Kalshi">
+<meta property="og:description" content="Live and upcoming ATP/WTA singles match-winner probabilities from a Monte Carlo model on ranking points, priced against live Kalshi KXATPMATCH/KXWTAMATCH contracts.">
+<meta property="og:url" content="https://commodus67.github.io/tennis-match-winner-api">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sports probability APIs", "item": "https://commodus67.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Tennis Match Winner API", "item": "https://commodus67.github.io/tennis-match-winner-api"}]}, {"@type": "SoftwareApplication", "name": "Tennis Match Winner API", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://apify.com/commodus67/tennis-match-winner-monte-carlo", "description": "Live and upcoming ATP/WTA singles match-winner probabilities from a Monte Carlo model on ranking points, priced against live Kalshi KXATPMATCH/KXWTAMATCH contracts.", "author": {"@type": "Person", "name": "Elio Liberatore", "alternateName": "commodus67", "url": "https://commodus67.github.io/", "sameAs": ["https://apify.com/commodus67", "https://github.com/commodus67", "https://x.com/commodus67", "https://www.linkedin.com/in/elio-liberatore", "https://dev.to/commodus67"]}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why ranking points instead of a full Elo rating?", "acceptedAnswer": {"@type": "Answer", "text": "ATP and WTA ranking points are public, updated weekly and already fold in a player's recent results. A Bradley-Terry model on points gives a calibrated pre-match probability without needing years of point-by-point match history to fit a separate rating system."}}, {"@type": "Question", "name": "How does the live, in-progress projection work?", "acceptedAnswer": {"@type": "Answer", "text": "The pre-match probability is inverted into a single-set win probability by bisection, then only the sets still remaining are simulated by Monte Carlo from the current score. A player already up a set shows a higher live probability than their pre-match number, without needing point-by-point data, which the public ESPN feed does not provide."}}, {"@type": "Question", "name": "Why are qualifying rounds excluded by default?", "acceptedAnswer": {"@type": "Answer", "text": "Qualifying matches almost never have a KXATPMATCH or KXWTAMATCH market on Kalshi, so scoring them by default would charge for rows with no market price to compare against. They can be turned on in the input."}}, {"@type": "Question", "name": "Why is best-of-five only applied to the four ATP majors?", "acceptedAnswer": {"@type": "Answer", "text": "ESPN's own period field is unreliable and reports 5 sets even for a best-of-three ATP 250 event. The format is detected from the tournament name instead: best-of-five only for the four Grand Slams on the ATP side, best-of-three everywhere else, including the WTA majors."}}]}]}</script>
+<style>
+:root{--bg:#f7f7f4;--fg:#1b1d21;--muted:#5d6470;--card:#fff;--line:#e3e3dd;--accent:#1f5fbf;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#e8e9eb;--muted:#9aa2ad;--card:#1a1d21;--line:#2a2e34;--accent:#6ea4ff;--accent-ink:#0d1117}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:56px 28px}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+nav.toc a{font-size:.9rem;padding:4px 11px;border:1px solid var(--line);border-radius:999px;color:var(--fg);text-decoration:none;background:var(--card)}
+nav.toc a:hover{border-color:var(--accent)}
+a{color:var(--accent)}
+.actor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:0 0 18px}
+.actor h2{margin:0;font-size:1.35rem}
+.actor h2 a{color:var(--fg);text-decoration:none}
+.actor h2 a:hover{color:var(--accent)}
+.tag{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+details summary{cursor:pointer;font-weight:600;margin-top:4px}
+ul.ex{margin:10px 0 0;padding-left:20px;columns:2 300px;column-gap:28px}
+ul.ex li{break-inside:avoid;margin:0 0 5px}
+.prose h2{font-size:1.25rem;margin:38px 0 8px}
+.prose h3{font-size:1.05rem;margin:22px 0 4px}
+.prose p,.prose li{max-width:70ch}
+.prose p{margin:0 0 12px}
+.prose ul{padding-left:20px;margin:0 0 12px}
+.crumbs{font-size:.9rem;color:var(--muted);margin:0 0 18px}
+.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:8px 0 0}
+code{font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 5px;word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Sports probability APIs</a> › Tennis Match Winner API</nav>
+    <h1>Tennis match winner API: ATP/WTA singles probabilities, live and pre-match</h1>
+    <p class="lede">A Monte Carlo model for ATP and WTA singles matches. Pre-match probabilities come from a Bradley-Terry model on current ranking points; matches already in progress are re-projected set by set from the live score, and every match is priced against live Kalshi contracts.</p>
+    <p class="links" style="margin-top:22px"><a class="btn" href="https://apify.com/commodus67/tennis-match-winner-monte-carlo">Open on Apify</a> <a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/api">API reference</a> <a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/input-schema">Input schema</a></p>
+  </header>
+  <main class="prose">
+    <h2>What it returns</h2>
+    <ul>
+      <li>One row per player per match, for every live and upcoming ATP/WTA singles match on the scoreboard</li>
+      <li>Win probability from the Monte Carlo model, pre-match or live-adjusted from the current score</li>
+      <li>Model probability against the live Kalshi KXATPMATCH/KXWTAMATCH price, with an edge/value verdict</li>
+      <li>A suggested action and a half-Kelly stake for each contract, sized to an optional bankroll</li>
+      <li>Both ATP and WTA tours, singles only — doubles draws are filtered out</li>
+    </ul>
+    <h2>How the model works</h2>
+    <p>Each player's strength is their current ATP or WTA ranking points. A Bradley-Terry model turns the ratio of the two players' points into a pre-match win probability, with an exponent that controls how much ranking gaps matter and a blend toward a coin flip that hedges against surface, form and head-to-head, none of which ranking points alone can see.</p>
+    <p>For a match already in progress, that pre-match number is inverted into a single-set win probability by bisection, then only the sets left to play are simulated thousands of times from the actual score — so a player already up a set shows a higher live probability than their pre-match number, without needing point-by-point data. Best-of-five is applied only to the four ATP Grand Slams, detected by tournament name; every other event, including the WTA majors, is best-of-three.</p>
+    <h2>How the market comparison works</h2>
+    <p>Each match's two outcomes are matched to Kalshi's KXATPMATCH or KXWTAMATCH markets by player name, not by ticker, since Kalshi and the scoreboard can order a player's first and last name differently. Edge is the model probability minus the fee-adjusted Kalshi ask; markets below a minimum open interest are marked illiquid instead of scored.</p>
+    <h2>2 ready-made examples</h2>
+    <p>Each one is a saved configuration with its input filled in. Open it on Apify and run it in one click.</p>
+    <ul class="ex">
+      <li><a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/examples/tennis-match-winner-projections">ATP/WTA Match Winner Projections</a></li>
+      <li><a href="https://apify.com/commodus67/tennis-match-winner-monte-carlo/examples/tennis-value-bets-vs-kalshi">ATP/WTA Value Bets vs Live Kalshi Prices</a></li>
+    </ul>
+    <h2>Common questions</h2>
+    <h3>Why ranking points instead of a full Elo rating?</h3>
+    <p>ATP and WTA ranking points are public, updated weekly and already fold in a player&#x27;s recent results. A Bradley-Terry model on points gives a calibrated pre-match probability without needing years of point-by-point match history to fit a separate rating system.</p>
+    <h3>How does the live, in-progress projection work?</h3>
+    <p>The pre-match probability is inverted into a single-set win probability by bisection, then only the sets still remaining are simulated by Monte Carlo from the current score. A player already up a set shows a higher live probability than their pre-match number, without needing point-by-point data, which the public ESPN feed does not provide.</p>
+    <h3>Why are qualifying rounds excluded by default?</h3>
+    <p>Qualifying matches almost never have a KXATPMATCH or KXWTAMATCH market on Kalshi, so scoring them by default would charge for rows with no market price to compare against. They can be turned on in the input.</p>
+    <h3>Why is best-of-five only applied to the four ATP majors?</h3>
+    <p>ESPN&#x27;s own period field is unreliable and reports 5 sets even for a best-of-three ATP 250 event. The format is detected from the tournament name instead: best-of-five only for the four Grand Slams on the ATP side, best-of-three everywhere else, including the WTA majors.</p>
+    <h2>Other models</h2>
+    <ul>
+      <li><a href="/soccer-predictions-api">Soccer Predictions API</a> — Title, top-four, playoff and relegation odds</li>
+      <li><a href="/soccer-match-predictions-api">Soccer Match Predictions API</a> — 1X2, over/under, BTTS and correct score</li>
+      <li><a href="/mlb-playoff-odds-api">MLB Playoff Odds API</a> — Division, wild card and postseason odds for 30 teams</li>
+      <li><a href="/nfl-playoff-odds-api">NFL Playoff Odds API</a> — Division, wild card and No. 1 seed odds for 32 teams</li>
+      <li><a href="/nhl-playoff-odds-api">NHL Playoff Odds API</a> — Playoff, wild card and Presidents’ Trophy odds for 32 teams</li>
+      <li><a href="/nba-playoff-odds-api">NBA Playoff Odds API</a> — Playoff, play-in and championship odds for 30 teams</li>
+      <li><a href="/sports-probabilities-mcp-server">Sports Probabilities MCP Server</a> — The models as tools for AI agents</li>
+    </ul>
+  </main>
+  <footer>
+    <p>Outputs are statistical estimates for research and analysis, not betting advice.</p>
+    <p><a href="https://commodus67.github.io/">All models</a> · <a href="https://apify.com/commodus67">Apify</a> · <a href="https://github.com/commodus67">GitHub</a> · <a href="https://dev.to/commodus67">DEV</a> · <a href="https://x.com/commodus67">X</a> · <a href="https://www.linkedin.com/in/elio-liberatore">LinkedIn</a> · Updated 2026-09-24</p>
+  </footer>
+</div>
+</body>
+</html>
