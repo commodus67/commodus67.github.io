@@ -1,0 +1,17 @@
+{
+  "updated": "2026-10-12T16:13:27Z",
+  "first_frozen": "2026-10-12T16:12:42Z",
+  "frozen_total": 13,
+  "open": 13,
+  "all": {
+    "n": 0
+  },
+  "full_data_only": {
+    "n": 0
+  },
+  "low_data_only": {
+    "n": 0
+  },
+  "by_league": {},
+  "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
+}
