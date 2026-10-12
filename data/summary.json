@@ -1,21 +1,74 @@
 {
-  "updated": "2026-10-12T16:23:31Z",
+  "updated": "2026-10-12T20:23:31Z",
   "first_frozen": "2026-10-12T16:12:42Z",
   "frozen_total": 13,
-  "open": 13,
+  "open": 11,
   "all": {
-    "n": 0
+    "n": 2,
+    "accuracy_1x2": 1.0,
+    "margin_95": 0.0,
+    "baseline_always_home": 1.0,
+    "brier_1x2": 0.2603,
+    "brier_reference": 0.4538,
+    "log_loss_1x2": 0.5253,
+    "log_loss_reference": 0.7985,
+    "accuracy_over25": 1.0,
+    "accuracy_btts": 0.5
   },
   "full_data_only": {
-    "n": 0
+    "n": 2,
+    "accuracy_1x2": 1.0,
+    "margin_95": 0.0,
+    "baseline_always_home": 1.0,
+    "brier_1x2": 0.2603,
+    "brier_reference": 0.4538,
+    "log_loss_1x2": 0.5253,
+    "log_loss_reference": 0.7985,
+    "accuracy_over25": 1.0,
+    "accuracy_btts": 0.5
   },
   "low_data_only": {
     "n": 0
   },
-  "by_league": {},
-  "model_vs_kalshi": {
-    "n": 0
+  "by_league": {
+    "ita.1": {
+      "n": 1,
+      "accuracy_1x2": 1.0,
+      "margin_95": 0.0,
+      "baseline_always_home": 1.0,
+      "brier_1x2": 0.1121,
+      "brier_reference": 0.4538,
+      "log_loss_1x2": 0.3136,
+      "log_loss_reference": 0.7985,
+      "accuracy_over25": 1.0,
+      "accuracy_btts": 0.0
+    },
+    "nor.1": {
+      "n": 1,
+      "accuracy_1x2": 1.0,
+      "margin_95": 0.0,
+      "baseline_always_home": 1.0,
+      "brier_1x2": 0.4085,
+      "brier_reference": 0.4538,
+      "log_loss_1x2": 0.7371,
+      "log_loss_reference": 0.7985,
+      "accuracy_over25": 1.0,
+      "accuracy_btts": 1.0
+    }
   },
-  "kalshi_attached_open": 8,
+  "model_vs_kalshi": {
+    "n": 1,
+    "model": {
+      "brier_1x2": 0.1121,
+      "log_loss_1x2": 0.3136,
+      "accuracy_1x2": 1.0
+    },
+    "market": {
+      "brier_1x2": 0.2092,
+      "log_loss_1x2": 0.465,
+      "accuracy_1x2": 1.0
+    }
+  },
+  "kalshi_attached_open": 7,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
