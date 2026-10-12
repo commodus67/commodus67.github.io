@@ -20,12 +20,14 @@ jobs:
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python build_predictions.py
+      - name: Settle finished fixtures and rebuild the track record
+        run: python track_record.py || echo "track record step failed, demo unaffected"
       - name: Commit if the numbers moved
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain soccer-predictions-demo.html)" ]; then
-            git add soccer-predictions-demo.html
+          if [ -n "$(git status --porcelain soccer-predictions-demo.html data)" ]; then
+            git add soccer-predictions-demo.html $([ -d data ] && echo data)
             git commit -m "Refresh soccer predictions"
             git push
           else
