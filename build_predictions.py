@@ -467,6 +467,13 @@ def main():
             print("  %-12s no upcoming fixtures, skipped" % slug)
             continue
         fresh += 1
+        try:
+            import track_record
+            n_new = track_record.freeze(slug, rows)
+            if n_new:
+                print("  %-12s froze %d fixtures in the ledger" % (slug, n_new))
+        except Exception as exc:  # never let the ledger break the demo
+            print("  %-12s ledger freeze failed: %s" % (slug, exc))
         matches = [
             {
                 "k": r["kickoff"],
