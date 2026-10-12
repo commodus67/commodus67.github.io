@@ -49,6 +49,8 @@ KALSHI_SERIES = {
     "mex.1": "KXLIGAMXGAME", "usa.usl.1": "KXUSLGAME", "bra.2": "KXBRASILEIROBGAME",
 }
 KALSHI = "https://api.elections.kalshi.com/trade-api/v2/markets"
+# ESPN name (normalised) -> Kalshi name, for teams whose names are not a subset of each other.
+ALIASES = {"crb": "cr brasil"}
 
 
 def _now():
@@ -177,7 +179,8 @@ def _norm_name(name):
     n = unicodedata.normalize("NFKD", str(name)).encode("ascii", "ignore").decode().lower()
     n = re.sub(r"[^a-z0-9 ]", " ", n)
     stop = {"fc", "cf", "ac", "afc", "sc", "club", "de", "the", "and", "&"}
-    return " ".join(t for t in n.split() if t not in stop)
+    n = " ".join(t for t in n.split() if t not in stop)
+    return ALIASES.get(n, n)
 
 
 def _same_team(a, b):
