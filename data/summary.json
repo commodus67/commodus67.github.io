@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12T16:13:27Z",
+  "updated": "2026-10-12T16:23:31Z",
   "first_frozen": "2026-10-12T16:12:42Z",
   "frozen_total": 13,
   "open": 13,
@@ -13,5 +13,9 @@
     "n": 0
   },
   "by_league": {},
+  "model_vs_kalshi": {
+    "n": 0
+  },
+  "kalshi_attached_open": 8,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
