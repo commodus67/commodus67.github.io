@@ -1,31 +1,31 @@
 {
-  "updated": "2026-10-20T15:43:52Z",
+  "updated": "2026-10-21T16:01:59Z",
   "first_frozen": "2026-10-12T16:12:42Z",
-  "frozen_total": 175,
-  "open": 20,
+  "frozen_total": 177,
+  "open": 14,
   "all": {
-    "n": 155,
-    "accuracy_1x2": 0.4581,
-    "margin_95": 0.0784,
-    "baseline_always_home": 0.4065,
-    "brier_1x2": 0.6232,
-    "brier_reference": 0.661,
-    "log_loss_1x2": 1.0384,
-    "log_loss_reference": 1.09,
-    "accuracy_over25": 0.6323,
-    "accuracy_btts": 0.6129
+    "n": 163,
+    "accuracy_1x2": 0.4663,
+    "margin_95": 0.0766,
+    "baseline_always_home": 0.4233,
+    "brier_1x2": 0.6227,
+    "brier_reference": 0.655,
+    "log_loss_1x2": 1.0383,
+    "log_loss_reference": 1.0815,
+    "accuracy_over25": 0.6135,
+    "accuracy_btts": 0.6074
   },
   "full_data_only": {
-    "n": 144,
-    "accuracy_1x2": 0.4583,
-    "margin_95": 0.0814,
-    "baseline_always_home": 0.4028,
-    "brier_1x2": 0.625,
-    "brier_reference": 0.6624,
-    "log_loss_1x2": 1.0396,
-    "log_loss_reference": 1.092,
-    "accuracy_over25": 0.6389,
-    "accuracy_btts": 0.625
+    "n": 152,
+    "accuracy_1x2": 0.4671,
+    "margin_95": 0.0793,
+    "baseline_always_home": 0.4211,
+    "brier_1x2": 0.6244,
+    "brier_reference": 0.6559,
+    "log_loss_1x2": 1.0394,
+    "log_loss_reference": 1.0828,
+    "accuracy_over25": 0.6184,
+    "accuracy_btts": 0.6184
   },
   "low_data_only": {
     "n": 11,
@@ -41,28 +41,28 @@
   },
   "by_league": {
     "bra.2": {
-      "n": 14,
-      "accuracy_1x2": 0.2143,
-      "margin_95": 0.2149,
-      "baseline_always_home": 0.2857,
-      "brier_1x2": 0.716,
-      "brier_reference": 0.7067,
-      "log_loss_1x2": 1.1552,
-      "log_loss_reference": 1.1556,
-      "accuracy_over25": 0.7857,
-      "accuracy_btts": 0.6429
+      "n": 15,
+      "accuracy_1x2": 0.2667,
+      "margin_95": 0.2238,
+      "baseline_always_home": 0.3333,
+      "brier_1x2": 0.7048,
+      "brier_reference": 0.6898,
+      "log_loss_1x2": 1.1399,
+      "log_loss_reference": 1.1318,
+      "accuracy_over25": 0.8,
+      "accuracy_btts": 0.6667
     },
     "col.1": {
-      "n": 10,
-      "accuracy_1x2": 0.2,
-      "margin_95": 0.2479,
-      "baseline_always_home": 0.3,
-      "brier_1x2": 0.7295,
-      "brier_reference": 0.6998,
-      "log_loss_1x2": 1.1717,
-      "log_loss_reference": 1.1452,
-      "accuracy_over25": 0.7,
-      "accuracy_btts": 0.4
+      "n": 13,
+      "accuracy_1x2": 0.3077,
+      "margin_95": 0.2509,
+      "baseline_always_home": 0.4615,
+      "brier_1x2": 0.7052,
+      "brier_reference": 0.643,
+      "log_loss_1x2": 1.1415,
+      "log_loss_reference": 1.0652,
+      "accuracy_over25": 0.6154,
+      "accuracy_btts": 0.3846
     },
     "eng.1": {
       "n": 11,
@@ -125,16 +125,16 @@
       "accuracy_btts": 0.8333
     },
     "mex.1": {
-      "n": 9,
-      "accuracy_1x2": 0.4444,
-      "margin_95": 0.3246,
-      "baseline_always_home": 0.3333,
-      "brier_1x2": 0.6606,
-      "brier_reference": 0.6871,
-      "log_loss_1x2": 1.0667,
-      "log_loss_reference": 1.1269,
-      "accuracy_over25": 0.4444,
-      "accuracy_btts": 0.5556
+      "n": 13,
+      "accuracy_1x2": 0.4615,
+      "margin_95": 0.271,
+      "baseline_always_home": 0.3846,
+      "brier_1x2": 0.6486,
+      "brier_reference": 0.6676,
+      "log_loss_1x2": 1.065,
+      "log_loss_reference": 1.0989,
+      "accuracy_over25": 0.3077,
+      "accuracy_btts": 0.5385
     },
     "mex.2": {
       "n": 9,
@@ -198,18 +198,18 @@
     }
   },
   "model_vs_kalshi": {
-    "n": 103,
+    "n": 108,
     "model": {
-      "brier_1x2": 0.6184,
-      "log_loss_1x2": 1.0315,
-      "accuracy_1x2": 0.4757
+      "brier_1x2": 0.6178,
+      "log_loss_1x2": 1.0316,
+      "accuracy_1x2": 0.4815
     },
     "market": {
-      "brier_1x2": 0.5912,
-      "log_loss_1x2": 0.9879,
-      "accuracy_1x2": 0.534
+      "brier_1x2": 0.5892,
+      "log_loss_1x2": 0.9854,
+      "accuracy_1x2": 0.537
     }
   },
-  "kalshi_attached_open": 13,
+  "kalshi_attached_open": 8,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
