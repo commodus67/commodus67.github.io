@@ -1,31 +1,31 @@
 {
-  "updated": "2026-11-02T20:51:43Z",
+  "updated": "2026-11-03T18:33:05Z",
   "first_frozen": "2026-10-12T16:12:42Z",
-  "frozen_total": 458,
-  "open": 12,
+  "frozen_total": 462,
+  "open": 6,
   "all": {
-    "n": 444,
-    "accuracy_1x2": 0.5338,
-    "margin_95": 0.0464,
-    "baseline_always_home": 0.473,
-    "brier_1x2": 0.5927,
-    "brier_reference": 0.6374,
-    "log_loss_1x2": 0.9943,
-    "log_loss_reference": 1.0565,
-    "accuracy_over25": 0.5923,
-    "accuracy_btts": 0.5833
+    "n": 454,
+    "accuracy_1x2": 0.5308,
+    "margin_95": 0.0459,
+    "baseline_always_home": 0.4714,
+    "brier_1x2": 0.5944,
+    "brier_reference": 0.6379,
+    "log_loss_1x2": 0.997,
+    "log_loss_reference": 1.0573,
+    "accuracy_over25": 0.5881,
+    "accuracy_btts": 0.5771
   },
   "full_data_only": {
-    "n": 417,
-    "accuracy_1x2": 0.542,
-    "margin_95": 0.0478,
-    "baseline_always_home": 0.4748,
-    "brier_1x2": 0.5887,
-    "brier_reference": 0.6366,
-    "log_loss_1x2": 0.989,
-    "log_loss_reference": 1.0554,
-    "accuracy_over25": 0.5923,
-    "accuracy_btts": 0.5899
+    "n": 427,
+    "accuracy_1x2": 0.5386,
+    "margin_95": 0.0473,
+    "baseline_always_home": 0.4731,
+    "brier_1x2": 0.5906,
+    "brier_reference": 0.6372,
+    "log_loss_1x2": 0.9921,
+    "log_loss_reference": 1.0563,
+    "accuracy_over25": 0.5878,
+    "accuracy_btts": 0.5831
   },
   "low_data_only": {
     "n": 27,
@@ -41,64 +41,64 @@
   },
   "by_league": {
     "bra.2": {
-      "n": 32,
-      "accuracy_1x2": 0.4062,
-      "margin_95": 0.1702,
-      "baseline_always_home": 0.4375,
-      "brier_1x2": 0.6399,
-      "brier_reference": 0.6513,
-      "log_loss_1x2": 1.0524,
-      "log_loss_reference": 1.0768,
-      "accuracy_over25": 0.6562,
-      "accuracy_btts": 0.5625
+      "n": 35,
+      "accuracy_1x2": 0.4286,
+      "margin_95": 0.164,
+      "baseline_always_home": 0.4571,
+      "brier_1x2": 0.6311,
+      "brier_reference": 0.6447,
+      "log_loss_1x2": 1.04,
+      "log_loss_reference": 1.0675,
+      "accuracy_over25": 0.6286,
+      "accuracy_btts": 0.5429
     },
     "col.1": {
-      "n": 36,
+      "n": 38,
       "accuracy_1x2": 0.5,
-      "margin_95": 0.1633,
-      "baseline_always_home": 0.6389,
-      "brier_1x2": 0.5806,
-      "brier_reference": 0.5805,
-      "log_loss_1x2": 0.9759,
-      "log_loss_reference": 0.9769,
-      "accuracy_over25": 0.6667,
-      "accuracy_btts": 0.4444
+      "margin_95": 0.159,
+      "baseline_always_home": 0.6316,
+      "brier_1x2": 0.58,
+      "brier_reference": 0.5833,
+      "log_loss_1x2": 0.9756,
+      "log_loss_reference": 0.981,
+      "accuracy_over25": 0.6842,
+      "accuracy_btts": 0.4474
     },
     "eng.1": {
-      "n": 30,
-      "accuracy_1x2": 0.5333,
-      "margin_95": 0.1785,
-      "baseline_always_home": 0.4667,
-      "brier_1x2": 0.6231,
-      "brier_reference": 0.6391,
-      "log_loss_1x2": 1.04,
-      "log_loss_reference": 1.0588,
-      "accuracy_over25": 0.5,
-      "accuracy_btts": 0.3667
+      "n": 31,
+      "accuracy_1x2": 0.5161,
+      "margin_95": 0.1759,
+      "baseline_always_home": 0.4516,
+      "brier_1x2": 0.6296,
+      "brier_reference": 0.6441,
+      "log_loss_1x2": 1.0491,
+      "log_loss_reference": 1.0657,
+      "accuracy_over25": 0.5161,
+      "accuracy_btts": 0.3548
     },
     "esp.1": {
-      "n": 31,
-      "accuracy_1x2": 0.6129,
-      "margin_95": 0.1715,
-      "baseline_always_home": 0.4516,
-      "brier_1x2": 0.5508,
-      "brier_reference": 0.6448,
-      "log_loss_1x2": 0.931,
-      "log_loss_reference": 1.0669,
-      "accuracy_over25": 0.5161,
-      "accuracy_btts": 0.4516
+      "n": 32,
+      "accuracy_1x2": 0.625,
+      "margin_95": 0.1677,
+      "baseline_always_home": 0.4688,
+      "brier_1x2": 0.5454,
+      "brier_reference": 0.6388,
+      "log_loss_1x2": 0.9236,
+      "log_loss_reference": 1.0585,
+      "accuracy_over25": 0.5,
+      "accuracy_btts": 0.4375
     },
     "fra.1": {
-      "n": 26,
-      "accuracy_1x2": 0.5769,
-      "margin_95": 0.1899,
-      "baseline_always_home": 0.5385,
-      "brier_1x2": 0.5325,
-      "brier_reference": 0.6146,
-      "log_loss_1x2": 0.9038,
-      "log_loss_reference": 1.0245,
-      "accuracy_over25": 0.6538,
-      "accuracy_btts": 0.6538
+      "n": 27,
+      "accuracy_1x2": 0.5556,
+      "margin_95": 0.1874,
+      "baseline_always_home": 0.5185,
+      "brier_1x2": 0.5405,
+      "brier_reference": 0.6212,
+      "log_loss_1x2": 0.9147,
+      "log_loss_reference": 1.0337,
+      "accuracy_over25": 0.6296,
+      "accuracy_btts": 0.6296
     },
     "ger.1": {
       "n": 27,
@@ -113,16 +113,16 @@
       "accuracy_btts": 0.7037
     },
     "ita.1": {
-      "n": 41,
-      "accuracy_1x2": 0.7317,
-      "margin_95": 0.1356,
-      "baseline_always_home": 0.5122,
-      "brier_1x2": 0.4849,
-      "brier_reference": 0.6216,
-      "log_loss_1x2": 0.8503,
-      "log_loss_reference": 1.0335,
-      "accuracy_over25": 0.4878,
-      "accuracy_btts": 0.7073
+      "n": 42,
+      "accuracy_1x2": 0.7143,
+      "margin_95": 0.1366,
+      "baseline_always_home": 0.5,
+      "brier_1x2": 0.5015,
+      "brier_reference": 0.6257,
+      "log_loss_1x2": 0.8763,
+      "log_loss_reference": 1.0392,
+      "accuracy_over25": 0.4762,
+      "accuracy_btts": 0.7143
     },
     "mex.1": {
       "n": 37,
@@ -161,16 +161,16 @@
       "accuracy_btts": 0.6
     },
     "uru.1": {
-      "n": 23,
-      "accuracy_1x2": 0.5652,
-      "margin_95": 0.2026,
-      "baseline_always_home": 0.5217,
-      "brier_1x2": 0.6063,
-      "brier_reference": 0.6199,
-      "log_loss_1x2": 1.0044,
-      "log_loss_reference": 1.0317,
-      "accuracy_over25": 0.6087,
-      "accuracy_btts": 0.5652
+      "n": 24,
+      "accuracy_1x2": 0.5417,
+      "margin_95": 0.1993,
+      "baseline_always_home": 0.5,
+      "brier_1x2": 0.616,
+      "brier_reference": 0.628,
+      "log_loss_1x2": 1.02,
+      "log_loss_reference": 1.0433,
+      "accuracy_over25": 0.5833,
+      "accuracy_btts": 0.5417
     },
     "usa.1": {
       "n": 75,
@@ -198,18 +198,18 @@
     }
   },
   "model_vs_kalshi": {
-    "n": 290,
+    "n": 296,
     "model": {
-      "brier_1x2": 0.5891,
-      "log_loss_1x2": 0.9887,
-      "accuracy_1x2": 0.5379
+      "brier_1x2": 0.5906,
+      "log_loss_1x2": 0.9912,
+      "accuracy_1x2": 0.5372
     },
     "market": {
-      "brier_1x2": 0.5772,
-      "log_loss_1x2": 0.9695,
-      "accuracy_1x2": 0.5621
+      "brier_1x2": 0.5798,
+      "log_loss_1x2": 0.9735,
+      "accuracy_1x2": 0.5608
     }
   },
-  "kalshi_attached_open": 6,
+  "kalshi_attached_open": 0,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
