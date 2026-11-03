@@ -22,6 +22,8 @@ jobs:
         run: python build_predictions.py
       - name: Settle finished fixtures and rebuild the track record
         run: python track_record.py || echo "track record step failed, demo unaffected"
+      - name: Compute track-record statistics
+        run: python track_stats.py || echo "track stats step failed, demo unaffected"
       - name: Commit if the numbers moved
         run: |
           git config user.name "github-actions[bot]"

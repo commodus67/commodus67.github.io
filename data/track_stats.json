@@ -1,0 +1,70 @@
+{
+ "generatedAt": "2026-11-03T16:01:44.974Z",
+ "n": 444,
+ "periodStart": "2026-10-12T16:30:00Z",
+ "periodEnd": "2026-11-02T20:51:42Z",
+ "leagueCounts": {
+  "ita.1": 41,
+  "nor.1": 25,
+  "bra.2": 32,
+  "eng.1": 30,
+  "esp.1": 31,
+  "mex.2": 25,
+  "col.1": 36,
+  "usa.usl.1": 36,
+  "usa.1": 75,
+  "ger.1": 27,
+  "fra.1": 26,
+  "uru.1": 23,
+  "mex.1": 37
+ },
+ "outcomes": {
+  "home": 210,
+  "draw": 97,
+  "away": 137
+ },
+ "accuracy": 0.5337837837837838,
+ "accuracyMarginOfError95": 0.04640245539261883,
+ "baselineHomeAccuracy": 0.47297297297297297,
+ "baselineUniformBrier": 0.6666666666666666,
+ "baselineUniformLogloss": 1.0986122886681098,
+ "brier": 0.5926623111761424,
+ "logloss": 0.9942593343870044,
+ "dataQuality": {
+  "full": {
+   "n": 417,
+   "correct": 226
+  },
+  "partial-low-sample": {
+   "n": 27,
+   "correct": 11
+  }
+ },
+ "over25": {
+  "n": 444,
+  "accuracy": 0.5923423423423423,
+  "brier": 0.24396377721105184,
+  "logloss": 0.6821281268116741,
+  "actualRate": 0.5585585585585585
+ },
+ "btts": {
+  "n": 444,
+  "accuracy": 0.5833333333333334,
+  "brier": 0.24848986863001138,
+  "logloss": 0.6907473306906446,
+  "actualRate": 0.5698198198198198
+ },
+ "kalshi": {
+  "n": 290,
+  "model": {
+   "accuracy": 0.5379310344827586,
+   "brier": 0.5890751972788482,
+   "logloss": 0.9886738013926829
+  },
+  "market": {
+   "accuracy": 0.5620689655172414,
+   "brier": 0.5771602503957961,
+   "logloss": 0.969487625027043
+  }
+ }
+}

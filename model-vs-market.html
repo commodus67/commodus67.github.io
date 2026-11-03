@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1XML9M4WYT"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+var gaInternal = false;
+try {
+  if (/[?&]internal=1(&|$)/.test(location.search)) localStorage.setItem('ga_internal', '1');
+  if (/[?&]internal=0(&|$)/.test(location.search)) localStorage.removeItem('ga_internal');
+  gaInternal = localStorage.getItem('ga_internal') === '1';
+} catch (e) {}
+gtag('config', 'G-1XML9M4WYT', gaInternal ? { traffic_type: 'internal' } : {});
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Record — Model vs Market | Soccer Match Predictions</title>
+<meta name="description" content="Out-of-sample accuracy, Brier score and log loss of the Dixon-Coles soccer match-prediction model against naive baselines and live Kalshi prediction-market prices, updated daily from settled matches.">
+<link rel="canonical" href="https://commodus67.github.io/model-vs-market">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="commodus67">
+<meta property="og:url" content="https://commodus67.github.io/model-vs-market">
+<meta property="og:title" content="Track Record — Model vs Market | Soccer Match Predictions">
+<meta property="og:description" content="Out-of-sample accuracy, Brier score and log loss of the Dixon-Coles soccer match-prediction model against naive baselines and live Kalshi prediction-market prices, updated daily from settled matches.">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="demo-favicon-48.png">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#070c1a;color:#e8eaf6;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-track{background:#0c1428}
+  ::-webkit-scrollbar-thumb{background:#2a3560;border-radius:3px}
+  .card{background:#0c1428;border:1px solid #1a2440;border-radius:14px;padding:14px;margin-bottom:14px;animation:fadeUp .3s ease both}
+  .eyebrow{font-size:9px;letter-spacing:2px;color:#3a4570;font-weight:700;text-transform:uppercase}
+  h1{font-size:27px;font-weight:900;letter-spacing:-1.2px;background:linear-gradient(135deg,#00e676,#00bcd4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#00e676;line-height:1.15}
+  h2{font-size:14px;font-weight:800;margin-bottom:10px;color:#e8eaf6}
+  .chip{padding:6px 11px;border-radius:8px;border:none;cursor:pointer;font-size:11.5px;font-weight:700;background:#111d38;color:#5a6a99;transition:background .15s,color .15s;font-family:inherit;text-decoration:none;display:inline-block}
+  .chip[aria-pressed="true"]{background:#00e676;color:#070c1a}
+  .cc{display:inline-block;font-style:normal;font-size:9px;font-weight:800;letter-spacing:.5px;
+      padding:2px 4px;margin-right:6px;border-radius:4px;background:#1e2b4d;color:#8fa3d4;vertical-align:1px}
+  .lowd{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.5px;
+        padding:1px 4px;margin-left:6px;border-radius:3px;background:#3a2c0a;color:#ffd600;vertical-align:1px}
+  .mrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;width:100%;text-align:left;
+        background:transparent;border:none;border-bottom:1px solid #141d35;padding:9px 6px}
+  .mrow:last-child{border-bottom:none}
+  .mrow .d{font-size:10px;color:#3a4570;line-height:1.35;white-space:nowrap}
+  .mrow .t{line-height:1.35}
+  .mrow .t b{font-weight:600}
+  .mini{display:flex;height:4px;border-radius:2px;overflow:hidden;width:56px;flex-shrink:0}
+  table{width:100%;border-collapse:collapse}
+  td{padding:7px 0;border-bottom:1px solid #141d35;font-size:12.5px}
+  tr:last-child td{border-bottom:none}
+  .num{font-variant-numeric:tabular-nums}
+  a{color:#00bcd4}
+  .stat{font-size:25px;font-weight:900;letter-spacing:-0.5px;font-variant-numeric:tabular-nums}
+  .stat.green{color:#00e676}
+  .stat.cyan{color:#00bcd4}
+  .stat.amber{color:#ffd600}
+  .stat.pink{color:#ff4081}
+  .statlabel{font-size:10px;color:#5a6a99;margin-top:3px;letter-spacing:.3px}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .statgrid .cell{text-align:center;padding:10px 4px}
+  .vs{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0}
+  .vsbar{flex:1;height:26px;border-radius:6px;position:relative;background:#111d38;overflow:hidden}
+  .vsfill{position:absolute;top:0;left:0;height:100%;border-radius:6px}
+  .vslabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#e8eaf6}
+  .note{font-size:11px;color:#5a6a99;line-height:1.6;margin-top:4px}
+  .leaguegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px}
+  .leaguegrid .lg{display:flex;justify-content:space-between;padding:4px 6px;background:#0a1020;border-radius:6px}
+  .leaguegrid .lg b{color:#8fa3d4}
+  .skel{color:#3a4570;font-size:12px;padding:20px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header style="text-align:center;margin-bottom:18px">
+    <div style="font-size:10px;letter-spacing:3px;color:#00e676;font-weight:700;margin-bottom:6px">DIXON–COLES · BIVARIATE POISSON</div>
+    <h1>📊 Track Record</h1>
+    <p style="color:#3a4a70;margin-top:5px;font-size:12px">Model vs market, out of sample, scored on every settled match</p>
+    <p id="hdrStats" style="color:#2f3c63;margin-top:3px;font-size:11px">loading…</p>
+    <div style="margin-top:10px">
+      <a class="chip" href="soccer-predictions-demo.html">⚽ Live predictions</a>
+      <a class="chip" id="csvLink" href="data/ledger.csv" download>⬇ Raw CSV</a>
+    </div>
+  </header>
+
+  <div id="app">
+    <div class="skel">Loading track record…</div>
+  </div>
+
+  <footer style="margin-top:18px;font-size:10.5px;color:#3a4570;line-height:1.7">
+    <div class="card" style="padding:11px 14px">
+      Every row is scored only after the real result is known. Each match's probabilities are frozen roughly 36 hours before kickoff — before line-ups, injuries and late market moves — and never revised, so this is a genuine out-of-sample record, not a backtest fit to the same data. Accuracy is the share of matches where the highest-probability outcome (home/draw/away) occurred; Brier score and log loss score the full probability distribution and reward calibration, not just picking a winner — lower is better on both, and the baselines below show what "no skill" looks like on this exact sample. The Kalshi comparison uses the bid/ask midpoint, de-vigged (normalized to sum to 100%), captured at the same freeze time as the model's prediction.
+      <div style="margin-top:8px;color:#4a5580">Simulation and data, not tips. Nothing here is betting advice.</div>
+      <div style="margin-top:8px">Powered by <a href="https://apify.com/commodus67/soccer-dixon-coles-match-predictor" target="_blank" rel="noopener">soccer-dixon-coles-match-predictor</a> on Apify · <span id="gen">—</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script id="payload" type="application/json">{
+ "generatedAt": "2026-11-03T16:01:44.974Z",
+ "n": 444,
+ "periodStart": "2026-10-12T16:30:00Z",
+ "periodEnd": "2026-11-02T20:51:42Z",
+ "leagueCounts": {
+  "ita.1": 41,
+  "nor.1": 25,
+  "bra.2": 32,
+  "eng.1": 30,
+  "esp.1": 31,
+  "mex.2": 25,
+  "col.1": 36,
+  "usa.usl.1": 36,
+  "usa.1": 75,
+  "ger.1": 27,
+  "fra.1": 26,
+  "uru.1": 23,
+  "mex.1": 37
+ },
+ "outcomes": {
+  "home": 210,
+  "draw": 97,
+  "away": 137
+ },
+ "accuracy": 0.5337837837837838,
+ "accuracyMarginOfError95": 0.04640245539261883,
+ "baselineHomeAccuracy": 0.47297297297297297,
+ "baselineUniformBrier": 0.6666666666666666,
+ "baselineUniformLogloss": 1.0986122886681098,
+ "brier": 0.5926623111761424,
+ "logloss": 0.9942593343870044,
+ "dataQuality": {
+  "full": {
+   "n": 417,
+   "correct": 226
+  },
+  "partial-low-sample": {
+   "n": 27,
+   "correct": 11
+  }
+ },
+ "over25": {
+  "n": 444,
+  "accuracy": 0.5923423423423423,
+  "brier": 0.24396377721105184,
+  "logloss": 0.6821281268116741,
+  "actualRate": 0.5585585585585585
+ },
+ "btts": {
+  "n": 444,
+  "accuracy": 0.5833333333333334,
+  "brier": 0.24848986863001138,
+  "logloss": 0.6907473306906446,
+  "actualRate": 0.5698198198198198
+ },
+ "kalshi": {
+  "n": 290,
+  "model": {
+   "accuracy": 0.5379310344827586,
+   "brier": 0.5890751972788482,
+   "logloss": 0.9886738013926829
+  },
+  "market": {
+   "accuracy": 0.5620689655172414,
+   "brier": 0.5771602503957961,
+   "logloss": 0.969487625027043
+  }
+ }
+}
+</script>
+<script>
+(function(){
+  var raw = document.getElementById('payload').textContent.trim();
+  var data;
+  try { data = JSON.parse(raw); } catch (e) { data = null; }
+  var app = document.getElementById('app');
+
+  if (!data || !data.n) {
+    app.innerHTML = '<div class="card"><p class="note">No settled matches yet. Check back once the first batch of predictions has been scored against final results.</p></div>';
+    return;
+  }
+
+  function pct(x, d){ return (x*100).toFixed(d==null?1:d) + '%'; }
+  function num(x, d){ return x.toFixed(d==null?4:d); }
+  function fmtDate(iso){
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return d.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+  }
+
+  document.getElementById('hdrStats').textContent =
+    data.n + ' settled matches · ' + fmtDate(data.periodStart) + ' – ' + fmtDate(data.periodEnd);
+  document.getElementById('gen').textContent = 'data refreshed ' + new Date(data.generatedAt).toLocaleString();
+
+  var html = '';
+
+  // Headline
+  html += '<div class="card"><h2>Headline — 1X2 outcome</h2>';
+  html += '<div class="statgrid">';
+  html += '<div class="cell"><div class="stat green">'+pct(data.accuracy)+'</div><div class="statlabel">model accuracy<br>±'+pct(data.accuracyMarginOfError95)+' (95% CI)</div></div>';
+  html += '<div class="cell"><div class="stat" style="color:#5a6a99">'+pct(data.baselineHomeAccuracy)+'</div><div class="statlabel">baseline: always pick home</div></div>';
+  html += '<div class="cell"><div class="stat cyan">'+num(data.brier)+'</div><div class="statlabel">Brier score (lower better)<br>uniform guess: '+num(data.baselineUniformBrier)+'</div></div>';
+  html += '<div class="cell"><div class="stat cyan">'+num(data.logloss)+'</div><div class="statlabel">log loss (lower better)<br>uniform guess: '+num(data.baselineUniformLogloss)+'</div></div>';
+  html += '</div>';
+  html += '<p class="note">Outcomes in sample: '+data.outcomes.home+' home wins, '+data.outcomes.draw+' draws, '+data.outcomes.away+' away wins (n='+data.n+'). The margin of error shrinks as more matches settle — treat the headline number as a range, not a point estimate, until the sample is larger.</p>';
+  html += '</div>';
+
+  // Data quality breakdown
+  if (data.dataQuality) {
+    html += '<div class="card"><h2>By data quality</h2>';
+    var order = ['full','partial-low-sample'];
+    order.forEach(function(k){
+      var dq = data.dataQuality[k];
+      if (!dq) return;
+      var acc = dq.correct/dq.n;
+      var label = k === 'full' ? 'Full history' : 'Low sample';
+      html += '<div class="mrow"><div class="t"><b>'+label+'</b>'+(k!=='full' ? '<span class="lowd">LOW DATA</span>' : '')+'<div class="d">'+dq.n+' matches scored</div></div><div class="t" style="text-align:right"><b class="num">'+pct(acc)+'</b></div></div>';
+    });
+    html += '<p class="note">"Low sample" matches involve a team with fewer than ~20 matches of history (newly promoted sides, early-season fixtures). Their predictions carry a wider margin of error and are flagged as such on the live page.</p>';
+    html += '</div>';
+  }
+
+  // Markets: Over/Under and BTTS
+  if (data.over25 && data.over25.n) {
+    html += '<div class="card"><h2>Over/Under 2.5 &amp; Both Teams to Score</h2>';
+    [['Over 2.5 goals', data.over25], ['Both teams to score', data.btts]].forEach(function(pair){
+      var label = pair[0], d = pair[1];
+      if (!d || !d.n) return;
+      html += '<div class="mrow"><div class="t"><b>'+label+'</b><div class="d">actual rate: '+pct(d.actualRate)+' · n='+d.n+'</div></div><div class="t" style="text-align:right"><b class="num">'+pct(d.accuracy)+'</b><div class="d">Brier '+num(d.brier,3)+'</div></div></div>';
+    });
+    html += '</div>';
+  }
+
+  // Kalshi comparison — reported honestly either way
+  if (data.kalshi && data.kalshi.n) {
+    var k = data.kalshi;
+    var modelAhead = k.model.brier < k.market.brier;
+    html += '<div class="card"><h2>Model vs Kalshi market</h2>';
+    html += '<p class="note" style="margin-top:0;margin-bottom:10px">De-vigged mid-price from Kalshi\'s soccer markets, captured at the same moment the model\'s prediction was frozen (n='+k.n+' matches with a quoted market).</p>';
+    html += '<table>';
+    html += '<tr><td></td><td class="num" style="text-align:right;color:#00e676;font-weight:700">Model</td><td class="num" style="text-align:right;color:#8fa3d4;font-weight:700">Market</td></tr>';
+    html += '<tr><td>Accuracy</td><td class="num" style="text-align:right">'+pct(k.model.accuracy)+'</td><td class="num" style="text-align:right">'+pct(k.market.accuracy)+'</td></tr>';
+    html += '<tr><td>Brier score</td><td class="num" style="text-align:right">'+num(k.model.brier)+'</td><td class="num" style="text-align:right">'+num(k.market.brier)+'</td></tr>';
+    html += '<tr><td>Log loss</td><td class="num" style="text-align:right">'+num(k.model.logloss)+'</td><td class="num" style="text-align:right">'+num(k.market.logloss)+'</td></tr>';
+    html += '</table>';
+    html += '<p class="note">'+(modelAhead
+      ? 'On this sample the model is slightly ahead of the de-vigged market on calibration (Brier/log loss). '
+      : 'On this sample the de-vigged market is still slightly ahead of the model on calibration (Brier/log loss) — reported here as-is rather than left out. ')
+      +'Neither edge is large enough yet to be conclusive at n='+k.n+'; this comparison is reported for transparency, not as a betting signal.</p>';
+    html += '</div>';
+  }
+
+  // Per-league counts
+  if (data.leagueCounts) {
+    html += '<div class="card"><h2>Coverage by league</h2><div class="leaguegrid">';
+    var leagues = Object.keys(data.leagueCounts).sort(function(a,b){return data.leagueCounts[b]-data.leagueCounts[a];});
+    leagues.forEach(function(l){
+      html += '<div class="lg"><span>'+l+'</span><b>'+data.leagueCounts[l]+'</b></div>';
+    });
+    html += '</div></div>';
+  }
+
+  app.innerHTML = html;
+})();
+</script>
+</body>
+</html>
