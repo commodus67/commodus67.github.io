@@ -1,16 +1,16 @@
 {
- "generatedAt": "2026-11-04T18:45:32.654283+00:00",
- "n": 456,
+ "generatedAt": "2026-11-05T18:53:35.403926+00:00",
+ "n": 460,
  "periodStart": "2026-10-12T16:30:00Z",
- "periodEnd": "2026-11-04T18:45:32Z",
+ "periodEnd": "2026-11-05T18:53:34Z",
  "leagueCounts": {
   "ita.1": 42,
   "nor.1": 25,
   "bra.2": 35,
   "eng.1": 31,
   "esp.1": 32,
-  "mex.2": 25,
-  "col.1": 40,
+  "mex.2": 27,
+  "col.1": 42,
   "usa.usl.1": 36,
   "usa.1": 75,
   "ger.1": 27,
@@ -19,20 +19,20 @@
   "mex.1": 37
  },
  "outcomes": {
-  "home": 215,
-  "draw": 100,
-  "away": 141
+  "home": 216,
+  "draw": 101,
+  "away": 143
  },
- "accuracy": 0.5328947368421053,
- "accuracyMarginOfError95": 0.04579327940531981,
- "baselineHomeAccuracy": 0.47149122807017546,
+ "accuracy": 0.5282608695652173,
+ "accuracyMarginOfError95": 0.04561968976608214,
+ "baselineHomeAccuracy": 0.46956521739130436,
  "baselineUniformBrier": 0.6666666666666666,
  "baselineUniformLogloss": 1.0986122886681098,
- "brier": 0.5934290100304149,
- "logloss": 0.9956844604463339,
+ "brier": 0.5952886933862025,
+ "logloss": 0.9982365186329666,
  "dataQuality": {
   "full": {
-   "n": 429,
+   "n": 433,
    "correct": 232
   },
   "partial-low-sample": {
@@ -41,18 +41,18 @@
   }
  },
  "over25": {
-  "n": 456,
-  "accuracy": 0.5877192982456141,
-  "brier": 0.24426501737709652,
-  "logloss": 0.6826904583704302,
-  "actualRate": 0.5548245614035088
+  "n": 460,
+  "accuracy": 0.5891304347826087,
+  "brier": 0.2442355080591022,
+  "logloss": 0.6826395248968379,
+  "actualRate": 0.5521739130434783
  },
  "btts": {
-  "n": 456,
-  "accuracy": 0.5767543859649122,
-  "brier": 0.24860590259488824,
-  "logloss": 0.6909526245621284,
-  "actualRate": 0.5657894736842105
+  "n": 460,
+  "accuracy": 0.5760869565217391,
+  "brier": 0.2487737254056066,
+  "logloss": 0.6913173635486862,
+  "actualRate": 0.5630434782608695
  },
  "kalshi": {
   "n": 296,
