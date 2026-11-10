@@ -1,31 +1,31 @@
 {
-  "updated": "2026-11-09T21:32:13Z",
+  "updated": "2026-11-10T18:45:01Z",
   "first_frozen": "2026-10-12T16:12:42Z",
-  "frozen_total": 582,
-  "open": 11,
+  "frozen_total": 584,
+  "open": 12,
   "all": {
-    "n": 569,
-    "accuracy_1x2": 0.5413,
+    "n": 570,
+    "accuracy_1x2": 0.5421,
     "margin_95": 0.0409,
-    "baseline_always_home": 0.471,
-    "brier_1x2": 0.5847,
-    "brier_reference": 0.6379,
-    "log_loss_1x2": 0.983,
-    "log_loss_reference": 1.0573,
-    "accuracy_over25": 0.5817,
-    "accuracy_btts": 0.5606
+    "baseline_always_home": 0.4719,
+    "brier_1x2": 0.584,
+    "brier_reference": 0.6376,
+    "log_loss_1x2": 0.982,
+    "log_loss_reference": 1.0568,
+    "accuracy_over25": 0.5807,
+    "accuracy_btts": 0.5596
   },
   "full_data_only": {
-    "n": 535,
-    "accuracy_1x2": 0.5458,
-    "margin_95": 0.0422,
-    "baseline_always_home": 0.4692,
-    "brier_1x2": 0.5836,
-    "brier_reference": 0.6384,
-    "log_loss_1x2": 0.9819,
-    "log_loss_reference": 1.0579,
-    "accuracy_over25": 0.585,
-    "accuracy_btts": 0.5645
+    "n": 536,
+    "accuracy_1x2": 0.5466,
+    "margin_95": 0.0421,
+    "baseline_always_home": 0.4701,
+    "brier_1x2": 0.5829,
+    "brier_reference": 0.6381,
+    "log_loss_1x2": 0.9808,
+    "log_loss_reference": 1.0574,
+    "accuracy_over25": 0.584,
+    "accuracy_btts": 0.5634
   },
   "low_data_only": {
     "n": 34,
@@ -53,16 +53,16 @@
       "accuracy_btts": 0.5111
     },
     "col.1": {
-      "n": 51,
-      "accuracy_1x2": 0.5294,
-      "margin_95": 0.137,
-      "baseline_always_home": 0.6078,
-      "brier_1x2": 0.5625,
-      "brier_reference": 0.5911,
-      "log_loss_1x2": 0.9497,
-      "log_loss_reference": 0.9917,
-      "accuracy_over25": 0.6275,
-      "accuracy_btts": 0.451
+      "n": 52,
+      "accuracy_1x2": 0.5385,
+      "margin_95": 0.1355,
+      "baseline_always_home": 0.6154,
+      "brier_1x2": 0.5548,
+      "brier_reference": 0.5884,
+      "log_loss_1x2": 0.9391,
+      "log_loss_reference": 0.988,
+      "accuracy_over25": 0.6154,
+      "accuracy_btts": 0.4423
     },
     "eng.1": {
       "n": 41,
@@ -210,6 +210,6 @@
       "accuracy_1x2": 0.5687
     }
   },
-  "kalshi_attached_open": 0,
+  "kalshi_attached_open": 1,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
