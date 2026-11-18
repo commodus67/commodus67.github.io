@@ -1,8 +1,8 @@
 {
-  "updated": "2026-11-17T19:57:52Z",
+  "updated": "2026-11-18T19:29:05Z",
   "first_frozen": "2026-10-12T16:12:42Z",
-  "frozen_total": 607,
-  "open": 10,
+  "frozen_total": 609,
+  "open": 12,
   "all": {
     "n": 595,
     "accuracy_1x2": 0.5345,
@@ -210,6 +210,6 @@
       "accuracy_1x2": 0.5733
     }
   },
-  "kalshi_attached_open": 0,
+  "kalshi_attached_open": 2,
   "note": "Probabilities are frozen before kickoff; git history dates every row. Reference = fixed 45/27/28 home/draw/away prior. Simulation and data. Not tips."
 }
