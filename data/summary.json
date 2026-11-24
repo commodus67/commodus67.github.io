@@ -1,31 +1,31 @@
 {
-  "updated": "2026-11-23T22:48:21Z",
+  "updated": "2026-11-24T21:26:38Z",
   "first_frozen": "2026-10-12T16:12:42Z",
-  "frozen_total": 618,
+  "frozen_total": 622,
   "open": 7,
   "all": {
-    "n": 599,
-    "accuracy_1x2": 0.5309,
-    "margin_95": 0.04,
-    "baseline_always_home": 0.4641,
-    "brier_1x2": 0.5894,
+    "n": 603,
+    "accuracy_1x2": 0.529,
+    "margin_95": 0.0398,
+    "baseline_always_home": 0.4643,
+    "brier_1x2": 0.5901,
     "brier_reference": 0.6404,
-    "log_loss_1x2": 0.9892,
-    "log_loss_reference": 1.0608,
-    "accuracy_over25": 0.5793,
-    "accuracy_btts": 0.5643
+    "log_loss_1x2": 0.9902,
+    "log_loss_reference": 1.0607,
+    "accuracy_over25": 0.5788,
+    "accuracy_btts": 0.5638
   },
   "full_data_only": {
-    "n": 565,
-    "accuracy_1x2": 0.5345,
-    "margin_95": 0.0411,
-    "baseline_always_home": 0.4619,
-    "brier_1x2": 0.5886,
+    "n": 569,
+    "accuracy_1x2": 0.5325,
+    "margin_95": 0.041,
+    "baseline_always_home": 0.4622,
+    "brier_1x2": 0.5894,
     "brier_reference": 0.641,
-    "log_loss_1x2": 0.9885,
-    "log_loss_reference": 1.0616,
-    "accuracy_over25": 0.5823,
-    "accuracy_btts": 0.5681
+    "log_loss_1x2": 0.9895,
+    "log_loss_reference": 1.0615,
+    "accuracy_over25": 0.5817,
+    "accuracy_btts": 0.5677
   },
   "low_data_only": {
     "n": 34,
@@ -65,28 +65,28 @@
       "accuracy_btts": 0.4423
     },
     "eng.1": {
-      "n": 41,
-      "accuracy_1x2": 0.5366,
-      "margin_95": 0.1526,
-      "baseline_always_home": 0.4878,
-      "brier_1x2": 0.6108,
-      "brier_reference": 0.6318,
-      "log_loss_1x2": 1.0242,
-      "log_loss_reference": 1.0486,
-      "accuracy_over25": 0.5366,
-      "accuracy_btts": 0.4146
+      "n": 42,
+      "accuracy_1x2": 0.5476,
+      "margin_95": 0.1505,
+      "baseline_always_home": 0.5,
+      "brier_1x2": 0.6068,
+      "brier_reference": 0.6276,
+      "log_loss_1x2": 1.0185,
+      "log_loss_reference": 1.0427,
+      "accuracy_over25": 0.5238,
+      "accuracy_btts": 0.4048
     },
     "esp.1": {
-      "n": 42,
-      "accuracy_1x2": 0.5952,
-      "margin_95": 0.1484,
-      "baseline_always_home": 0.4048,
-      "brier_1x2": 0.5562,
-      "brier_reference": 0.6614,
-      "log_loss_1x2": 0.9395,
-      "log_loss_reference": 1.0904,
-      "accuracy_over25": 0.5476,
-      "accuracy_btts": 0.4524
+      "n": 43,
+      "accuracy_1x2": 0.5814,
+      "margin_95": 0.1475,
+      "baseline_always_home": 0.3953,
+      "brier_1x2": 0.5633,
+      "brier_reference": 0.665,
+      "log_loss_1x2": 0.9501,
+      "log_loss_reference": 1.0955,
+      "accuracy_over25": 0.5349,
+      "accuracy_btts": 0.4651
     },
     "fra.1": {
       "n": 36,
@@ -161,28 +161,28 @@
       "accuracy_btts": 0.6061
     },
     "uru.1": {
-      "n": 33,
-      "accuracy_1x2": 0.4242,
-      "margin_95": 0.1686,
-      "baseline_always_home": 0.4242,
-      "brier_1x2": 0.6657,
-      "brier_reference": 0.655,
-      "log_loss_1x2": 1.092,
-      "log_loss_reference": 1.0816,
-      "accuracy_over25": 0.5455,
-      "accuracy_btts": 0.5455
+      "n": 34,
+      "accuracy_1x2": 0.4118,
+      "margin_95": 0.1654,
+      "baseline_always_home": 0.4118,
+      "brier_1x2": 0.6707,
+      "brier_reference": 0.6597,
+      "log_loss_1x2": 1.0987,
+      "log_loss_reference": 1.0883,
+      "accuracy_over25": 0.5588,
+      "accuracy_btts": 0.5294
     },
     "usa.1": {
-      "n": 92,
-      "accuracy_1x2": 0.4891,
-      "margin_95": 0.1021,
-      "baseline_always_home": 0.4239,
-      "brier_1x2": 0.6099,
-      "brier_reference": 0.6549,
-      "log_loss_1x2": 1.019,
-      "log_loss_reference": 1.0813,
-      "accuracy_over25": 0.663,
-      "accuracy_btts": 0.6087
+      "n": 93,
+      "accuracy_1x2": 0.4839,
+      "margin_95": 0.1016,
+      "baseline_always_home": 0.4301,
+      "brier_1x2": 0.6101,
+      "brier_reference": 0.6527,
+      "log_loss_1x2": 1.0192,
+      "log_loss_reference": 1.0783,
+      "accuracy_over25": 0.6667,
+      "accuracy_btts": 0.6129
     },
     "usa.usl.1": {
       "n": 42,
@@ -198,16 +198,16 @@
     }
   },
   "model_vs_kalshi": {
-    "n": 385,
+    "n": 387,
     "model": {
-      "brier_1x2": 0.585,
-      "log_loss_1x2": 0.9833,
-      "accuracy_1x2": 0.5403
+      "brier_1x2": 0.5854,
+      "log_loss_1x2": 0.9838,
+      "accuracy_1x2": 0.5401
     },
     "market": {
-      "brier_1x2": 0.5684,
-      "log_loss_1x2": 0.9575,
-      "accuracy_1x2": 0.5688
+      "brier_1x2": 0.5689,
+      "log_loss_1x2": 0.9582,
+      "accuracy_1x2": 0.5685
     }
   },
   "kalshi_attached_open": 3,
